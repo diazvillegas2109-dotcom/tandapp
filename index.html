@@ -2,69 +2,57 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp Cloud v6.8</title>
+<title>Tandapp Cloud v6.9</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet"/>
 <style>
   body { font-family: 'Outfit', sans-serif; background: #f3f4f6; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .card { background: white; padding: 2.5rem; border-radius: 20px; width: 90%; max-width: 380px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; border: 1px solid #e5e7eb; }
-  .input { width: 100%; padding: 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; margin-bottom: 1rem; font-family: 'Outfit'; outline: none; transition: 0.2s; }
-  .input:focus { border-color: #4f46e5; }
-  .btn { background: #4f46e5; color: white; width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 16px; }
-  #msg { font-size: 12px; margin-top: 1.2rem; min-height: 20px; font-weight: 600; }
-  #v-tag { position: fixed; top: 10px; left: 10px; background: #111827; color: #fff; font-size: 10px; padding: 5px 10px; border-radius: 6px; z-index: 9999; }
+  .card { background: white; padding: 2.5rem; border-radius: 20px; width: 90%; max-width: 380px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
+  .input { width: 100%; padding: 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; margin-bottom: 1rem; font-family: 'Outfit'; outline: none; }
+  .btn { background: #4f46e5; color: white; width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
+  #msg { font-size: 11px; margin-top: 1.2rem; white-space: pre-wrap; word-break: break-word; }
+  #v-tag { position: fixed; top: 10px; left: 10px; background: #000; color: #fff; font-size: 10px; padding: 5px 10px; border-radius: 5px; }
 </style>
 </head>
 <body>
-
-<div id="v-tag">VERSIÓN 6.8 - ULTRA FIX</div>
-
+<div id="v-tag">VERSION 6.9 - FINAL DIAGNOSTIC</div>
 <div class="card">
-  <div style="font-size: 45px; margin-bottom: 15px;">🏦</div>
-  <h2 style="margin-bottom: 0.5rem; font-weight: 800; color: #111827;">Tandapp Cloud</h2>
-  <p style="font-size: 13px; color: #6b7280; margin-bottom: 1.5rem;">Sincronización profesional</p>
-  
+  <h2 style="margin-bottom: 1.5rem; font-weight: 800;">Tandapp Cloud</h2>
   <input type="email" id="email" class="input" placeholder="Correo electrónico">
-  <input type="password" id="pass" class="input" placeholder="Tu contraseña">
-  
+  <input type="password" id="pass" class="input" placeholder="Contraseña">
   <button class="btn" onclick="login()">Entrar / Registrarse</button>
   <p id="msg"></p>
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  const firebaseConfig = {
+  // USANDO LAS CLAVES QUE VIMOS EN TU CONSOLA
+  const config = {
     apiKey: "AIzaSyBiOcXDDBpZ8zP5VeEQPqJp5GgxVEt-9UA",
     authDomain: "tandapp-dc4f5.firebaseapp.com",
     projectId: "tandapp-dc4f5",
-    storageBucket: "tandapp-dc4f5.firebasestorage.app",
-    messagingSenderId: "216117044294",
     appId: "1:216117044294:web:fa7f7d925adf6e835b9647"
   };
 
-  const app = initializeApp(firebaseConfig);
+  const app = initializeApp(config);
   const auth = getAuth(app);
 
   window.login = async () => {
     const e = document.getElementById('email').value, p = document.getElementById('pass').value, m = document.getElementById('msg');
-    if(!e || p.length < 6) { m.style.color = "#ef4444"; m.innerText = "Mínimo 6 caracteres en contraseña."; return; }
-    
-    m.style.color = "#4f46e5"; m.innerText = "Conectando con la nube...";
+    m.style.color = "#4f46e5"; m.innerText = "Verificando con Google Cloud...";
 
     try {
       await signInWithEmailAndPassword(auth, e, p);
-      alert("¡Éxito! Bienvenido.");
+      alert("¡Éxito!");
     } catch (err) {
       m.style.color = "#ef4444";
       if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-        try { 
-          await createUserWithEmailAndPassword(auth, e, p); 
-          alert("¡Cuenta de Tandapp creada con éxito!");
-        } catch(e2) { m.innerText = "Error: " + e2.code; }
+        try { await createUserWithEmailAndPassword(auth, e, p); alert("Cuenta creada."); }
+        catch(e2) { m.innerText = "DETALLE: " + e2.message; }
       } else {
-        m.innerText = "Fallo de conexión: " + err.code;
-        console.error(err);
+        // ESTO NOS DIRÁ EL ERROR REAL SI SIGUE EL API KEY ERROR
+        m.innerText = "FALLO DE SEGURIDAD:\n" + err.message + "\n\nCódigo: " + err.code;
       }
     }
   };
