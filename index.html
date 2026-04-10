@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp v7.3 — Cloud Merge</title>
+<title>Tandapp — Ahorro Grupal Cloud</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-/* MANTENEMOS TODO TU ESTILO ORIGINAL v5.4.1 */
+/* 1. MANTENEMOS TODO TU CSS ORIGINAL v5.4.1 */
 :root { --bg: #f3f4f6; --surface: #ffffff; --surface2: #f9fafb; --surface3: #eef2ff; --border: #e5e7eb; --border2: #c7d2fe; --text: #111827; --muted: #6b7280; --muted2: #4b5563; --accent: #4f46e5; --accent2: #6366f1; --green: #22c55e; --green-bg: rgba(34, 197, 94, 0.1); --red: #ef4444; --red-bg: rgba(239, 68, 68, 0.1); --blue: #3b82f6; --blue-bg: rgba(59, 130, 246, 0.1); --gold-bg: rgba(79, 70, 229, 0.1); --radius: 14px; --radius-sm: 8px; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
@@ -13,35 +13,37 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 .main { flex: 1; padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem; }
 .card-pad { padding: 1.25rem; }
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-family: 'Outfit'; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: none; font-family: 'Outfit'; }
 .btn-primary { background: var(--accent); color: white; }
 .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-.input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; outline: none; margin-bottom: 10px; }
+.input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; outline: none; margin-bottom: 12px; }
+.tabs { display: flex; gap: 2px; margin-bottom: 1rem; background: var(--surface2); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
+.tab { flex: 1; text-align: center; padding: 8px 12px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; border: none; background: none; color: var(--muted); }
+.tab.active { background: #ffffff; color: var(--accent); }
 .integrante-row { display: grid; grid-template-columns: 42px 1fr auto auto; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
 .exento-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); }
 .exento-pill.active { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.2); }
 .pago-btn { width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #ffffff; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; }
 .pago-btn.pagado { background: var(--green); color: white; border-color: var(--green); }
-.tabs { display: flex; gap: 2px; margin-bottom: 1rem; background: var(--surface2); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
-.tab { flex: 1; text-align: center; padding: 8px 12px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; border: none; background: none; color: var(--muted); }
-.tab.active { background: #ffffff; color: var(--accent); }
 .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1rem; }
 .modal-overlay.open { display: flex; }
 .modal { background: #ffffff; border-radius: var(--radius); width: 100%; max-width: 480px; padding: 1.5rem; }
-#v-tag { position: fixed; bottom: 5px; right: 5px; background: #000; color: #fff; font-size: 9px; padding: 3px 7px; border-radius: 4px; opacity: 0.5; }
+
+/* 2. CSS PARA EL LOGIN (NUEVO) */
+#auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.auth-card { background: white; padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 350px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
 
-<div id="v-tag">VERSION 7.3 - MERGE FINAL</div>
-
-<div id="auth-screen" style="display:flex; align-items:center; justify-content:center; min-height:100vh;">
-  <div class="card card-pad" style="width:100%; max-width:350px; text-align:center;">
-    <h2 style="font-weight:800; margin-bottom:1.5rem">Tandapp Cloud</h2>
-    <input type="email" id="email" class="input" placeholder="Correo">
+<div id="auth-screen">
+  <div class="auth-card">
+    <div style="font-size: 40px; margin-bottom: 10px;">🏦</div>
+    <h2 style="font-weight: 800; margin-bottom: 1.5rem;">Tandapp Cloud</h2>
+    <input type="email" id="email" class="input" placeholder="Correo electrónico">
     <input type="password" id="pass" class="input" placeholder="Contraseña">
     <button class="btn btn-primary" style="width:100%" onclick="login()">Entrar / Registrarse</button>
-    <p id="auth-msg" style="font-size:11px; color:red; margin-top:10px"></p>
+    <p id="auth-msg" style="font-size: 11px; color: var(--red); margin-top: 1rem;"></p>
   </div>
 </div>
 
@@ -49,6 +51,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   <header class="header">
     <div style="display:flex; align-items:center; gap:10px">
       <span style="font-weight:800; font-size:17px">Tandapp</span>
+      <span style="font-size:10px; background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:10px">Cloud v7.5</span>
     </div>
     <button onclick="logout()" style="background:none; border:none; color:white; font-size:11px; font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
   </header>
@@ -58,12 +61,12 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 <div class="modal-overlay" id="modal-nueva">
   <div class="modal">
     <h3 style="margin-bottom:1.5rem">Nueva Tanda</h3>
-    <div class="field"><input class="input" id="nueva-nombre" placeholder="Nombre de la tanda"></div>
+    <input class="input" id="nueva-nombre" placeholder="Nombre de la tanda">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <input class="input" id="nueva-aportacion" placeholder="Aportación ($)" type="number">
       <input class="input" id="nueva-participantes" placeholder="Participantes" type="number">
     </div>
-    <input class="input" id="nueva-fecha" type="date" style="margin-top:10px">
+    <input class="input" id="nueva-fecha" type="date">
     <div style="display:flex; gap:10px; margin-top:15px; justify-content:flex-end">
       <button class="btn btn-ghost" onclick="closeModal('modal-nueva')">Cancelar</button>
       <button class="btn btn-primary" onclick="crearTanda()">Crear Tanda</button>
@@ -72,6 +75,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 </div>
 
 <script type="module">
+  // 3. MOTOR DE GOOGLE FIREBASE
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
@@ -91,16 +95,17 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   let userG = null;
 
   // --- PERSISTENCIA NUBE ---
+  async function saveCloud() {
+    if (userG) await setDoc(doc(db, "users", userG.uid), { tandas: state.tandas });
+  }
+
   async function loadCloud() {
     const snap = await getDoc(doc(db, "users", userG.uid));
     if (snap.exists()) state.tandas = snap.data().tandas || [];
     render();
   }
-  async function saveCloud() {
-    await setDoc(doc(db, "users", userG.uid), { tandas: state.tandas });
-  }
 
-  // --- AUTH ---
+  // --- LOGIN LOGIC ---
   window.login = async () => {
     const e = document.getElementById('email').value, p = document.getElementById('pass').value;
     try { await signInWithEmailAndPassword(auth, e, p); } 
@@ -109,57 +114,52 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   window.logout = () => signOut(auth);
 
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      userG = user;
-      document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('app-content').style.display = 'block';
-      loadCloud();
-    } else {
-      document.getElementById('auth-screen').style.display = 'flex';
-      document.getElementById('app-content').style.display = 'none';
+    if (user) { 
+      userG = user; 
+      document.getElementById('auth-screen').style.display='none'; 
+      document.getElementById('app-content').style.display='block'; 
+      loadCloud(); 
+    } else { 
+      document.getElementById('auth-screen').style.display='flex'; 
+      document.getElementById('app-content').style.display='none'; 
     }
   });
 
-  // --- TUS FUNCIONES v5.4.1 (SIN CAMBIOS) ---
-  function genId() { return Math.random().toString(36).slice(2, 10); }
-  function fmt(n) { return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n); }
-  function fmtFecha(f) { return new Date(f).toLocaleDateString('es-MX', { day:'numeric', month:'short' }); }
-
+  // --- TU LÓGICA DE NEGOCIO v5.4.1 (SIN CAMBIOS) ---
   window.calcMonto = (tanda, idx) => {
     const aport = tanda.aportacion;
     const bene = tanda.participantes[idx];
     let total = 0;
-    tanda.participantes.forEach((p, pi) => {
-      if (idx === 0 && pi === 0) return; // Org no paga en R1
+    tanda.participantes.forEach((p, pIdx) => {
+      if (idx === 0 && pIdx === 0) return; // Organizador no paga en Ronda 1
       if (p.pagos[idx]) total += aport;
     });
-    if (idx !== 0 && !bene.exento) total = Math.max(0, total - aport); // Comisión
+    if (idx !== 0 && !bene.exento) total = Math.max(0, total - aport);
     return total;
   };
 
-  window.crearTanda = async () => {
-    const nom = document.getElementById('nueva-nombre').value;
-    const apo = parseFloat(document.getElementById('nueva-aportacion').value);
-    const num = parseInt(document.getElementById('nueva-participantes').value);
-    const fec = document.getElementById('nueva-fecha').value;
-    if(!nom || !apo || !num || !fec) return alert("Llena todo");
+  function fmt(n) { return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n); }
+  function fmtFecha(f) { return new Date(f).toLocaleDateString('es-MX', { day:'numeric', month:'short' }); }
 
-    const participantes = Array.from({length: num}, (_, i) => {
+  window.crearTanda = async () => {
+    const nom = document.getElementById('nueva-nombre').value, apo = parseFloat(document.getElementById('nueva-aportacion').value), num = parseInt(document.getElementById('nueva-participantes').value), fec = document.getElementById('nueva-fecha').value;
+    if(!nom || !apo || !num || !fec) return alert('Datos incompletos');
+    const pts = Array.from({ length: num }, (_, i) => {
       let d = new Date(fec + 'T12:00:00'); d.setDate(d.getDate() + (i * 15));
-      return { id: genId(), nombre: '', exento: false, pagos: Array(num).fill(false), fechaCobro: d.getTime() };
+      return { id: Math.random().toString(36).slice(2), nombre: '', exento: false, pagos: Array(num).fill(false), fechaCobro: d.getTime(), recibido: false };
     });
-    state.tandas.push({ id: genId(), nombre: nom, aportacion: apo, participantes });
+    state.tandas.push({ id: Math.random().toString(36).slice(2), nombre: nom, aportacion: apo, participantes: pts });
     await saveCloud(); closeModal('modal-nueva'); render();
   };
 
-  // --- RENDERIZADO v5.4.1 ---
+  // --- RENDERIZADO ORIGINAL v5.4.1 ---
   window.render = () => {
     const root = document.getElementById('app-root');
     if (state.vista === 'dashboard') {
       root.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
           <h2 style="font-weight:800">Tus Tandas</h2>
-          <button class="btn btn-primary" onclick="openModal('modal-nueva')">+ Nueva</button>
+          <button class="btn btn-primary" onclick="openModal('modal-nueva')">+ Nueva Tanda</button>
         </div>
         ${state.tandas.map(t => `
           <div class="card card-pad" onclick="state.vista='detalle'; state.tandaId='${t.id}'; render()">
@@ -173,8 +173,9 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
         <div class="tabs">
           <button class="tab ${state.tabActiva==='config'?'active':''}" onclick="state.tabActiva='config'; render()">Configuración</button>
           <button class="tab ${state.tabActiva==='pagos'?'active':''}" onclick="state.tabActiva='pagos'; render()">Pagos</button>
+          <button class="tab ${state.tabActiva==='resumen'?'active':''}" onclick="state.tabActiva='resumen'; render()">Resumen</button>
         </div>
-        ${state.tabActiva==='config' ? renderConfig(t) : renderPagos(t)}`;
+        ${state.tabActiva==='config' ? renderConfig(t) : (state.tabActiva==='pagos' ? renderPagos(t) : renderResumen(t))}`;
     }
   };
 
@@ -205,6 +206,17 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
           ${p.pagos.map((pg, r) => `<button class="pago-btn ${pg?'pagado':''}" onclick="p.pagos[${r}]=!p.pagos[${r}]; saveCloud(); render()">${r+1}</button>`).join('')}
         </div>
       </div>`).join('');
+  }
+
+  function renderResumen(t) {
+    return `<div class="card card-pad" style="overflow-x:auto"><table style="width:100%; border-collapse:collapse; font-size:13px">
+      <thead><tr style="color:var(--muted); text-align:left; font-size:11px"><th>#</th><th>Nombre</th><th>Cobro</th><th>Saldo</th><th>Estado</th></tr></thead>
+      <tbody>${t.participantes.map((p,i)=>`
+        <tr style="border-top:1px solid var(--border)">
+          <td style="padding:10px 0">${i+1}</td><td style="font-weight:600">${p.nombre || '-'}</td><td>${fmtFecha(p.fechaCobro)}</td>
+          <td style="font-weight:800; color:var(--green)">${fmt(calcMonto(t,i))}</td>
+          <td><button onclick="p.recibido=!p.recibido; saveCloud(); render()" style="border:none; background:${p.recibido?'var(--green-bg)':'#eee'}; color:${p.recibido?'var(--green)':'#666'}; padding:4px 8px; border-radius:10px; font-size:10px; font-weight:700">${p.recibido?'ENTREGADO':'PENDIENTE'}</button></td>
+        </tr>`).join('')}</tbody></table></div>`;
   }
 
   window.openModal = (id) => document.getElementById(id).classList.add('open');
