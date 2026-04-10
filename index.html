@@ -2,52 +2,39 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp Cloud v6.6</title>
+<title>Tandapp Cloud v6.8</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet"/>
 <style>
-  :root { --bg: #f3f4f6; --accent: #4f46e5; --text: #111827; --radius: 14px; --green: #22c55e; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-  .header { background: var(--accent); color: white; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-  #auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
-  .card { background: white; padding: 2rem; border-radius: var(--radius); width: 100%; max-width: 380px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
-  .input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1rem; font-family: 'Outfit'; outline: none; }
-  .btn { background: var(--accent); color: white; width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; }
-  .btn-outline { background: white; border: 1px solid var(--accent); color: var(--accent); margin-top: 10px; }
-  #msg { font-size: 11px; color: #ef4444; margin-top: 1rem; }
-  #v-tag { position: fixed; top: 5px; left: 5px; background: #000; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 3px; z-index: 2000; }
-  .main { padding: 1.5rem; max-width: 600px; margin: 0 auto; }
-  .tanda-card { background: white; padding: 1.25rem; border-radius: 12px; margin-bottom: 10px; border: 1px solid #eee; cursor: pointer; }
+  body { font-family: 'Outfit', sans-serif; background: #f3f4f6; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+  .card { background: white; padding: 2.5rem; border-radius: 20px; width: 90%; max-width: 380px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; border: 1px solid #e5e7eb; }
+  .input { width: 100%; padding: 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; margin-bottom: 1rem; font-family: 'Outfit'; outline: none; transition: 0.2s; }
+  .input:focus { border-color: #4f46e5; }
+  .btn { background: #4f46e5; color: white; width: 100%; padding: 14px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 16px; }
+  #msg { font-size: 12px; margin-top: 1.2rem; min-height: 20px; font-weight: 600; }
+  #v-tag { position: fixed; top: 10px; left: 10px; background: #111827; color: #fff; font-size: 10px; padding: 5px 10px; border-radius: 6px; z-index: 9999; }
 </style>
 </head>
 <body>
-<div id="v-tag">VERSIÓN 6.6 - CLOUD</div>
 
-<div id="auth-screen">
-  <div class="card">
-    <div style="font-size: 40px; margin-bottom: 10px;">🏦</div>
-    <h2 style="font-weight: 800; margin-bottom: 1.5rem;">Tandapp Cloud</h2>
-    <input type="email" id="email" class="input" placeholder="Correo electrónico">
-    <input type="password" id="pass" class="input" placeholder="Contraseña (6+ letras)">
-    <button class="btn" onclick="login()">Entrar / Registrarse</button>
-    <p id="msg"></p>
-  </div>
-</div>
+<div id="v-tag">VERSIÓN 6.8 - ULTRA FIX</div>
 
-<div id="app-content" style="display:none">
-  <header class="header">
-    <span style="font-weight:800">Tandapp</span>
-    <button onclick="logout()" style="background:none; border:none; color:white; font-size:12px; cursor:pointer;">Salir</button>
-  </header>
-  <div class="main" id="root"></div>
+<div class="card">
+  <div style="font-size: 45px; margin-bottom: 15px;">🏦</div>
+  <h2 style="margin-bottom: 0.5rem; font-weight: 800; color: #111827;">Tandapp Cloud</h2>
+  <p style="font-size: 13px; color: #6b7280; margin-bottom: 1.5rem;">Sincronización profesional</p>
+  
+  <input type="email" id="email" class="input" placeholder="Correo electrónico">
+  <input type="password" id="pass" class="input" placeholder="Tu contraseña">
+  
+  <button class="btn" onclick="login()">Entrar / Registrarse</button>
+  <p id="msg"></p>
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-auth.js";
 
-  const config = {
+  const firebaseConfig = {
     apiKey: "AIzaSyBiOcXDDBpZ8zP5VeEQPqJp5GgxVEt-9UA",
     authDomain: "tandapp-dc4f5.firebaseapp.com",
     projectId: "tandapp-dc4f5",
@@ -56,48 +43,31 @@
     appId: "1:216117044294:web:fa7f7d925adf6e835b9647"
   };
 
-  const app = initializeApp(config);
+  const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
-  let userGlobal = null;
 
   window.login = async () => {
     const e = document.getElementById('email').value, p = document.getElementById('pass').value, m = document.getElementById('msg');
-    m.innerText = "Conectando...";
+    if(!e || p.length < 6) { m.style.color = "#ef4444"; m.innerText = "Mínimo 6 caracteres en contraseña."; return; }
+    
+    m.style.color = "#4f46e5"; m.innerText = "Conectando con la nube...";
+
     try {
       await signInWithEmailAndPassword(auth, e, p);
+      alert("¡Éxito! Bienvenido.");
     } catch (err) {
+      m.style.color = "#ef4444";
       if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-        try { await createUserWithEmailAndPassword(auth, e, p); } catch(e2) { m.innerText = "Error: " + e2.message; }
-      } else { m.innerText = "Error: " + err.message; }
+        try { 
+          await createUserWithEmailAndPassword(auth, e, p); 
+          alert("¡Cuenta de Tandapp creada con éxito!");
+        } catch(e2) { m.innerText = "Error: " + e2.code; }
+      } else {
+        m.innerText = "Fallo de conexión: " + err.code;
+        console.error(err);
+      }
     }
   };
-
-  window.logout = () => signOut(auth);
-
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      userGlobal = user;
-      document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('app-content').style.display = 'block';
-      render();
-    } else {
-      document.getElementById('auth-screen').style.display = 'flex';
-      document.getElementById('app-content').style.display = 'none';
-    }
-  });
-
-  function render() {
-    document.getElementById('root').innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-        <h2 style="font-weight:800">Tus Tandas</h2>
-        <button class="btn" style="width:auto; padding:8px 15px" onclick="alert('¡Ya estás adentro! Ahora puedes crear tandas.')">+ Nueva</button>
-      </div>
-      <div class="tanda-card">
-        <div style="font-weight:800; color:var(--accent)">¡Bienvenido al Cloud!</div>
-        <p style="font-size:12px; color:#666">Tus datos ahora se guardan en Google.</p>
-      </div>`;
-  }
 </script>
 </body>
 </html>
