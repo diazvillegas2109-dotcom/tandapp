@@ -1,28 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp — Ahorro Grupal Cloud</title>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tandapp — Cloud Original</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 /* 1. TUS ESTILOS ORIGINALES v5.4.1 */
-:root {
-  --bg: #f3f4f6; --surface: #ffffff; --surface2: #f9fafb; --surface3: #eef2ff;
-  --border: #e5e7eb; --border2: #c7d2fe; --text: #111827; --muted: #6b7280;
-  --muted2: #4b5563; --accent: #4f46e5; --accent2: #6366f1; --green: #22c55e;
-  --green-bg: rgba(34, 197, 94, 0.1); --red: #ef4444; --red-bg: rgba(239, 68, 68, 0.1);
-  --blue: #3b82f6; --blue-bg: rgba(59, 130, 246, 0.1); --gold-bg: rgba(79, 70, 229, 0.1);
-  --radius: 14px; --radius-sm: 8px;
-}
+:root { --bg: #f3f4f6; --surface: #ffffff; --surface2: #f9fafb; --surface3: #eef2ff; --border: #e5e7eb; --border2: #c7d2fe; --text: #111827; --muted: #6b7280; --muted2: #4b5563; --accent: #4f46e5; --accent2: #6366f1; --green: #22c55e; --green-bg: rgba(34, 197, 94, 0.1); --red: #ef4444; --red-bg: rgba(239, 68, 68, 0.1); --blue: #3b82f6; --blue-bg: rgba(59, 130, 246, 0.1); --radius: 14px; --radius-sm: 8px; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
-.header { position: sticky; top: 0; z-index: 100; background: var(--accent); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; color: white; }
-.main { flex: 1; padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
+.header { position: sticky; top: 0; z-index: 100; background: var(--accent); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; color: white; }
+.main { padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem; }
 .card-pad { padding: 1.25rem; }
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-family: 'Outfit'; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: 0.15s; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: none; font-family: 'Outfit'; }
 .btn-primary { background: var(--accent); color: white; }
 .btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
 .input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; outline: none; margin-bottom: 12px; }
@@ -36,11 +27,10 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 .pago-btn.pagado { background: var(--green); color: white; }
 .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1rem; }
 .modal-overlay.open { display: flex; }
-.modal { background: #ffffff; border-radius: var(--radius); width: 100%; max-width: 480px; padding: 1.5rem; }
 
-/* ESTILOS DE LOGIN (NUEVOS) */
-#auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
-.auth-card { background: white; padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 360px; text-align: center; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+/* LOGIN STYLES */
+#auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; }
+.auth-card { background: white; padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 360px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 </style>
 </head>
 <body>
@@ -49,19 +39,18 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   <div class="auth-card">
     <div style="font-size: 40px; margin-bottom: 10px;">🏦</div>
     <h2 style="font-weight: 800; margin-bottom: 1.5rem;">Tandapp Cloud</h2>
-    <input type="email" id="email" class="input" placeholder="Correo electrónico">
+    <input type="email" id="email" class="input" placeholder="Correo">
     <input type="password" id="pass" class="input" placeholder="Contraseña">
-    <button class="btn btn-primary" style="width:100%" onclick="login()">Entrar / Registrarse</button>
-    <p id="auth-msg" style="font-size: 11px; color: var(--red); margin-top: 10px; font-weight: 600;"></p>
+    <button class="btn btn-primary" style="width:100%" id="btn-login">Entrar / Registrarse</button>
+    <p id="auth-msg" style="font-size: 11px; color: var(--red); margin-top: 15px; font-weight: 700;"></p>
   </div>
 </div>
 
 <div id="app-content" style="display:none">
   <header class="header">
     <div style="display:flex; align-items:center; gap:10px">
-      <div style="width:32px; height:32px; border-radius:10px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center;">🏦</div>
       <span style="font-weight:800; font-size:17px">Tandapp</span>
-      <span style="font-size:10px; background:rgba(255,255,255,0.15); padding:2px 7px; border-radius:20px;">v5.4.1 Cloud</span>
+      <span style="font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 7px; border-radius: 20px;">v7.7</span>
     </div>
     <button onclick="logout()" style="background:none; border:none; color:white; font-size:11px; font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
   </header>
@@ -69,7 +58,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 </div>
 
 <div class="modal-overlay" id="modal-nueva">
-  <div class="modal">
+  <div style="background:white; padding:1.5rem; border-radius:var(--radius); width:100%; max-width:480px;">
     <h3 style="margin-bottom:1.5rem; font-weight:800">Nueva Tanda</h3>
     <input class="input" id="nueva-nombre" placeholder="Nombre de la tanda">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
@@ -89,13 +78,12 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 </div>
 
 <script type="module">
-  // CONFIGURACIÓN DE NUBE (FIREBASE)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const config = {
-    apiKey: "AIzaSyDLmskFjsZkTgqj5SBMIKWjpVbX_N9uc9o",
+    apiKey: "AIzaSyDLmskFjsZkTgqj5SBMIKWjpVbX_N9uc9o", // Tu llave ganadora
     authDomain: "tandapp-dc4f5.firebaseapp.com",
     projectId: "tandapp-dc4f5",
     appId: "1:216117044294:web:fa7f7d925adf6e835b9647"
@@ -108,7 +96,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   let state = { tandas: [], vista: 'dashboard', tandaId: null, tabActiva: 'config', rondaActiva: 0, modoPagos: 'persona' };
   let userG = null;
 
-  // --- PERSISTENCIA NUBE (REEMPLAZA TU LOCALSTORAGE) ---
+  // --- NUBE ---
   async function save() { if (userG) await setDoc(doc(db, "users", userG.uid), { tandas: state.tandas }); }
   async function load() {
     const snap = await getDoc(doc(db, "users", userG.uid));
@@ -116,12 +104,19 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     render();
   }
 
-  // --- LÓGICA DE ACCESO ---
-  window.login = async () => {
-    const e = document.getElementById('email').value, p = document.getElementById('pass').value;
-    try { await signInWithEmailAndPassword(auth, e, p); } 
-    catch { try { await createUserWithEmailAndPassword(auth, e, p); } catch(err){ document.getElementById('auth-msg').innerText = err.message; } }
-  };
+  // --- LOGIN FIX ---
+  document.getElementById('btn-login').addEventListener('click', async () => {
+    const e = document.getElementById('email').value, p = document.getElementById('pass').value, m = document.getElementById('auth-msg');
+    m.innerText = "Conectando...";
+    try {
+      await signInWithEmailAndPassword(auth, e, p);
+    } catch (err) {
+      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials') {
+        try { await createUserWithEmailAndPassword(auth, e, p); } catch(e2) { m.innerText = "Error: " + e2.message; }
+      } else { m.innerText = "Error: " + err.message; }
+    }
+  });
+
   window.logout = () => signOut(auth);
 
   onAuthStateChanged(auth, (user) => {
@@ -134,41 +129,40 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     }
   });
 
-  // --- TU LÓGICA DE NEGOCIO v5.4.1 (COPIADA EXACTAMENTE DE TU TXT) ---
+  // --- TU LÓGICA DE NEGOCIO (REVISADA SEGÚN TU TXT) ---
   function genId() { return Math.random().toString(36).slice(2, 10); }
   function fmt(n) { return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n); }
   function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   function fmtFecha(f) { return new Date(f).toLocaleDateString('es-MX', { day:'numeric', month:'short' }); }
 
   window.calcMonto = (tanda, idx) => {
-    const aportacion = tanda.aportacion;
-    const beneficiario = tanda.participantes[idx];
-    let recaudadoReal = 0;
+    const apo = tanda.aportacion;
+    const bene = tanda.participantes[idx];
+    let total = 0;
     tanda.participantes.forEach((p, pIdx) => {
-      if (idx === 0 && pIdx === 0) return; // Organizador no paga en R1 [cite: 65]
-      if (p.pagos[idx]) recaudadoReal += aportacion; [cite: 65]
+      if (idx === 0 && pIdx === 0) return; // [cite: 65]
+      if (p.pagos[idx]) total += apo; // [cite: 65]
     });
-    if (idx !== 0 && !beneficiario.exento) recaudadoReal = Math.max(0, recaudadoReal - aportacion); [cite: 66, 67]
-    return recaudadoReal;
+    if (idx !== 0 && !bene.exento) total = Math.max(0, total - apo); // [cite: 66]
+    return total;
   };
 
   window.crearTanda = async () => {
-    const nombre = document.getElementById('nueva-nombre').value.trim();
-    const aportacion = parseFloat(document.getElementById('nueva-aportacion').value);
-    const numP = parseInt(document.getElementById('nueva-participantes').value);
-    const comision = parseFloat(document.getElementById('nueva-comision').value) || 0;
-    const fecha = document.getElementById('nueva-fecha').value;
-    const frecuencia = parseInt(document.getElementById('nueva-frecuencia').value);
-    if (!nombre || !aportacion || numP < 2 || !fecha) return alert('Completa todos los campos'); [cite: 69]
-    const participantes = Array.from({ length: numP }, (_, i) => {
-      let d = new Date(fecha + 'T12:00:00'); d.setDate(d.getDate() + (i * frecuencia)); [cite: 70]
-      return { id: genId(), nombre: '', exento: false, pagos: Array(numP).fill(false), fechaCobro: d.getTime(), recibido: false };
+    const nom = document.getElementById('nueva-nombre').value.trim();
+    const apo = parseFloat(document.getElementById('nueva-aportacion').value);
+    const num = parseInt(document.getElementById('nueva-participantes').value);
+    const com = parseFloat(document.getElementById('nueva-comision').value) || 0;
+    const fec = document.getElementById('nueva-fecha').value;
+    const fre = parseInt(document.getElementById('nueva-frecuencia').value);
+    if (!nom || !apo || num < 2 || !fec) return alert('Datos incompletos');
+    const pts = Array.from({ length: num }, (_, i) => {
+      let d = new Date(fec + 'T12:00:00'); d.setDate(d.getDate() + (i * fre));
+      return { id: genId(), nombre: '', exento: false, pagos: Array(num).fill(false), fechaCobro: d.getTime(), recibido: false };
     });
-    state.tandas.push({ id: genId(), nombre, aportacion, comision, participantes, fechaInicio: fecha, frecuencia }); [cite: 71]
+    state.tandas.push({ id: genId(), nombre: nom, aportacion: apo, comision: com, participantes: pts, fechaInicio: fec, frecuencia: fre });
     await save(); closeModal('modal-nueva'); render();
   };
 
-  // --- TUS RENDERS v5.4.1 (SIN CAMBIOS) ---
   window.render = () => {
     const root = document.getElementById('app-root');
     if (state.vista === 'dashboard') {
@@ -178,7 +172,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
           <button class="btn btn-primary" onclick="openModal('modal-nueva')">+ Nueva Tanda</button>
         </div>
         ${state.tandas.map(t => `
-          <div class="card card-pad" onclick="state.vista='detalle'; state.tandaId='${t.id}'; render()">
+          <div class="card card-pad" onclick="window.verTanda('${t.id}')">
             <div style="font-weight:800; color:var(--accent); font-size:18px">${esc(t.nombre)}</div>
             <div style="color:var(--muted); font-size:13px">${fmt(t.aportacion)} • ${t.participantes.length} números</div>
           </div>`).join('')}`;
@@ -195,16 +189,15 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     }
   };
 
+  window.verTanda = (id) => { state.tandaId = id; state.vista = 'detalle'; state.tabActiva = 'config'; render(); };
+
   function renderConfig(t) {
     return `<div class="card card-pad">
       <input class="input" style="font-weight:800; font-size:24px; border:none; padding:0; color:var(--accent); width:100%" value="${esc(t.nombre)}" oninput="t.nombre=this.value; save();">
       ${t.participantes.map((p, i) => `
         <div class="integrante-row">
           <div style="font-weight:800; color:var(--muted)">${i+1}</div>
-          <div>
-            <input style="border:none; font-family:'Outfit'; font-weight:700; width:100%" value="${esc(p.nombre)}" placeholder="Nombre..." oninput="p.nombre=this.value; save();">
-            <div style="font-size:10px; color:var(--accent); font-weight:600">Recibe: ${fmtFecha(p.fechaCobro)}</div>
-          </div>
+          <input style="border:none; font-family:'Outfit'; font-weight:700" value="${esc(p.nombre)}" placeholder="Nombre..." oninput="p.nombre=this.value; save();">
           <div class="exento-pill ${p.exento?'active':''}" onclick="p.exento=!p.exento; save(); render();">${p.exento?'Familia':'Con Comisión'}</div>
           <div style="text-align:right; font-weight:800; color:var(--green)">${fmt(calcMonto(t,i))}</div>
         </div>`).join('')}
@@ -226,7 +219,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 
   function renderResumen(t) {
     return `<div class="card card-pad" style="overflow-x:auto"><table style="width:100%; border-collapse:collapse; font-size:13px">
-      <thead><tr style="color:var(--muted); text-align:left; font-size:11px"><th>#</th><th>Nombre</th><th>Cobro</th><th>Saldo</th><th>Estado</th></tr></thead>
+      <thead><tr style="color:var(--muted); text-align:left; font-size:11px"><th>#</th><th>Nombre</th><th>Cobro</th><th>Saldo Real</th><th>Estado</th></tr></thead>
       <tbody>${t.participantes.map((p,i)=>`
         <tr style="border-top:1px solid var(--border)">
           <td style="padding:10px 0">${i+1}</td><td style="font-weight:600">${esc(p.nombre || '-')}</td><td>${fmtFecha(p.fechaCobro)}</td>
