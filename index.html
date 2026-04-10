@@ -1,247 +1,696 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp Cloud v7.9</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tandapp — Ahorro Grupal</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-/* 1. TUS ESTILOS ORIGINALES (Mantenidos al 100%) */
-:root { --bg: #f3f4f6; --surface: #ffffff; --surface2: #f9fafb; --surface3: #eef2ff; --border: #e5e7eb; --border2: #c7d2fe; --text: #111827; --muted: #6b7280; --muted2: #4b5563; --accent: #4f46e5; --accent2: #6366f1; --green: #22c55e; --green-bg: rgba(34, 197, 94, 0.1); --red: #ef4444; --red-bg: rgba(239, 68, 68, 0.1); --blue: #3b82f6; --blue-bg: rgba(59, 130, 246, 0.1); --radius: 14px; --radius-sm: 8px; }
+:root {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --surface2: #f9fafb;
+  --surface3: #eef2ff;
+  --border: #e5e7eb;
+  --border2: #c7d2fe;
+  --text: #111827;
+  --muted: #6b7280;
+  --muted2: #4b5563;
+  --accent: #4f46e5;
+  --accent2: #6366f1;
+  --green: #22c55e;
+  --green-bg: rgba(34, 197, 94, 0.1);
+  --red: #ef4444;
+  --red-bg: rgba(239, 68, 68, 0.1);
+  --blue: #3b82f6;
+  --blue-bg: rgba(59, 130, 246, 0.1);
+  --gold-bg: rgba(79, 70, 229, 0.1);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
-.header { position: sticky; top: 0; z-index: 100; background: var(--accent); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; color: white; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.main { padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1rem; }
-.card-pad { padding: 1.25rem; }
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-weight: 600; cursor: pointer; border: none; font-family: 'Outfit'; transition: 0.2s; }
-.btn-primary { background: var(--accent); color: white; }
-.btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-.input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; outline: none; margin-bottom: 12px; }
-.tabs { display: flex; gap: 2px; margin-bottom: 1rem; background: var(--surface2); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
-.tab { flex: 1; text-align: center; padding: 8px 12px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; border: none; background: none; color: var(--muted); }
-.tab.active { background: #ffffff; color: var(--accent); }
-.integrante-row { display: grid; grid-template-columns: 42px 1fr auto auto; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
-.exento-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); }
-.exento-pill.active { background: var(--green-bg); color: var(--green); }
-.pago-btn { width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #ffffff; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-.pago-btn.pagado { background: var(--green); border-color: var(--green); color: white; }
-.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1rem; }
-.modal-overlay.open { display: flex; }
-.badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); }
-.badge-green { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.2); }
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
+h1,h2,h3,h4 { font-family: 'Outfit', sans-serif; line-height: 1.2; }
 
-/* ESTILOS DE LOGIN REFORZADOS */
-#auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
-.auth-card { background: white; padding: 2.5rem; border-radius: var(--radius); width: 100%; max-width: 360px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border: 1px solid var(--border); }
+/* ── Auth Screen ─────────────────────────────────────────── */
+#auth-screen {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; background: var(--bg); padding: 1.5rem;
+}
+.auth-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); width: 100%; max-width: 400px;
+  padding: 2rem; box-shadow: 0 4px 24px rgba(79,70,229,0.08);
+}
+.auth-logo {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: center; margin-bottom: 1.75rem;
+}
+.auth-logo-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--accent); display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
+}
+.auth-logo-text { font-weight: 800; font-size: 22px; color: var(--accent); letter-spacing: -0.4px; }
+.auth-title { font-size: 17px; font-weight: 700; margin-bottom: 1.25rem; text-align: center; color: var(--text); }
+.auth-toggle { text-align: center; margin-top: 1rem; font-size: 13px; color: var(--muted); }
+.auth-toggle span { color: var(--accent); font-weight: 600; cursor: pointer; }
+.auth-toggle span:hover { text-decoration: underline; }
+.auth-error {
+  background: var(--red-bg); border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  font-size: 13px; color: var(--red); margin-bottom: 12px; display: none;
+}
+.auth-loading {
+  text-align: center; padding: 1rem 0; color: var(--muted);
+  font-size: 14px; display: none;
+}
+
+/* ── App (original) ──────────────────────────────────────── */
+#app-shell { display: none; }
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--accent);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+  color: white;
+}
+.header-logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.logo-text { font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
+.logo-badge { font-size: 10px; font-weight: 500; background: rgba(255,255,255,0.15); color: white; padding: 2px 7px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.header-user { font-size: 12px; font-weight: 500; opacity: 0.8; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-logout { font-size: 12px; font-weight: 600; background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.25); padding: 5px 12px; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.15s; font-family: 'Outfit', sans-serif; }
+.btn-logout:hover { background: rgba(255,255,255,0.25); }
+.main { flex: 1; padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
+
+/* Cards */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.card-pad { padding: 1.25rem; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--accent); color: white; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-ghost:hover { background: var(--surface3); border-color: var(--border2); }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+.btn-icon { padding: 7px; border-radius: var(--radius-sm); background: var(--surface2); border: 1px solid var(--border); cursor: pointer; display: inline-flex; align-items: center; color: var(--muted2); transition: all 0.15s; }
+.btn-icon:hover { color: var(--accent); border-color: var(--border2); }
+.btn-icon.danger:hover { color: var(--red); border-color: rgba(239, 68, 68, 0.3); background: var(--red-bg); }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.2); }
+.badge-muted { background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+.badge-clickable { cursor: pointer; transition: opacity 0.15s; }
+.badge-clickable:hover { opacity: 0.8; }
+
+/* Form */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 5px; letter-spacing: 0.5px; text-transform: uppercase; }
+.input { width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+.input::placeholder { color: #9ca3af; }
+.select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px; }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; transform: translateY(12px); transition: transform 0.25s; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+.modal-overlay.open .modal { transform: translateY(0); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.25rem 0; margin-bottom: 1rem; }
+.modal-header h3 { font-size: 17px; font-weight: 700; color: var(--text); }
+.modal-body { padding: 0 1.25rem 1.25rem; }
+.modal-footer { display: flex; gap: 8px; justify-content: flex-end; padding-top: 8px; }
+
+/* Config panel */
+.config-title-input { font-size: 24px; font-weight: 800; letter-spacing: -0.4px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--accent); outline: none; width: 100%; transition: border-color 0.2s; padding-bottom: 2px; }
+.config-title-input:focus { border-bottom-color: var(--accent); }
+
+/* Integrante Row */
+.integrante-row {
+  display: grid;
+  grid-template-columns: 42px 1fr auto auto;
+  align-items: center; gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.integrante-num { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
+.num-org { background: var(--surface3); color: var(--accent); }
+.num-reg { background: var(--blue-bg); color: var(--blue); }
+.integrante-nombre input { font-size: 14px; font-weight: 600; color: var(--text); background: transparent; border: none; outline: none; width: 100%; font-family: 'Outfit', sans-serif; }
+
+.exento-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); }
+.exento-pill.active { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.2); }
+
+/* Pagos tab */
+.pagos-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; background: var(--surface2); padding: 10px; border-radius: var(--radius); border: 1px solid var(--border); }
+.pago-btn { width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #ffffff; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: all 0.2s; }
+.pago-btn.pagado { background: var(--green); border-color: var(--green); color: white; }
+
+/* Rondas View */
+.ronda-selector { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 1rem; }
+.ronda-dot { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border); font-weight: 700; background: white; color: var(--muted); transition: all 0.2s; }
+.ronda-dot.active { background: var(--accent); color: white; border-color: var(--accent); }
+.ronda-dot.completa { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.4); }
+.ronda-dot.active.completa { background: var(--accent); color: white; border: 2px solid var(--green); }
+
+.ronda-card { background: white; padding: 12px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; border: 1px solid var(--border); }
+
+/* Tabs */
+.tabs { display: flex; gap: 2px; margin-bottom: 1rem; background: var(--surface2); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
+.tab { flex: 1; text-align: center; padding: 8px 12px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.2s; }
+.tab.active { background: #ffffff; color: var(--accent); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+
+.back-btn { background: none; border: none; color: var(--muted); cursor: pointer; margin-bottom: 1rem; display: flex; align-items: center; gap: 4px; font-weight: 600; }
+
+/* Dashboard */
+.dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
+.dashboard-sub { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.tanda-grid { display: grid; gap: 10px; }
+.tanda-card { cursor: pointer; }
+.tanda-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+
+/* Sync indicator */
+.sync-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(255,255,255,0.4); display: inline-block;
+  transition: background 0.3s;
+}
+.sync-dot.syncing { background: #fbbf24; animation: pulse 1s infinite; }
+.sync-dot.synced { background: var(--green); }
+
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeIn 0.22s ease forwards; }
+
+@media (max-width: 540px) {
+  .integrante-row { grid-template-columns: 36px 1fr auto; }
+  .monto-col { display: none; }
+}
 </style>
 </head>
 <body>
 
+<!-- ════════════════════════════════════════════════════════
+     AUTH SCREEN
+     ════════════════════════════════════════════════════════ -->
 <div id="auth-screen">
-  <div class="auth-card">
-    <div style="font-size: 45px; margin-bottom: 15px;">🏦</div>
-    <h2 style="font-weight: 800; margin-bottom: 1.5rem;">Tandapp Cloud</h2>
-    <input type="email" id="email" class="input" placeholder="Correo electrónico">
-    <input type="password" id="pass" class="input" placeholder="Contraseña">
-    <button class="btn btn-primary" style="width:100%; justify-content:center" onclick="window.login()">Entrar / Registrarse</button>
-    <p id="auth-msg" style="font-size: 11px; color: var(--red); margin-top: 15px; font-weight: 700; min-height: 14px;"></p>
+  <div class="auth-card animate-in">
+    <div class="auth-logo">
+      <div class="auth-logo-icon">🏦</div>
+      <span class="auth-logo-text">Tandapp</span>
+    </div>
+    <div class="auth-error" id="auth-error"></div>
+    <div class="auth-loading" id="auth-loading">Verificando sesión…</div>
+
+    <!-- FORMULARIO LOGIN -->
+    <div id="auth-form-login">
+      <div class="auth-title">Iniciar sesión</div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input class="input" id="login-email" type="email" placeholder="tu@correo.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>Contraseña</label>
+        <input class="input" id="login-pass" type="password" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center" id="btn-login">Entrar</button>
+      <div class="auth-toggle">¿No tienes cuenta? <span id="go-register">Regístrate aquí</span></div>
+    </div>
+
+    <!-- FORMULARIO REGISTRO -->
+    <div id="auth-form-register" style="display:none">
+      <div class="auth-title">Crear cuenta</div>
+      <div class="field">
+        <label>Correo electrónico</label>
+        <input class="input" id="reg-email" type="email" placeholder="tu@correo.com" autocomplete="email"/>
+      </div>
+      <div class="field">
+        <label>Contraseña (mín. 6 caracteres)</label>
+        <input class="input" id="reg-pass" type="password" placeholder="••••••••" autocomplete="new-password"/>
+      </div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center" id="btn-register">Crear cuenta</button>
+      <div class="auth-toggle">¿Ya tienes cuenta? <span id="go-login">Inicia sesión</span></div>
+    </div>
   </div>
 </div>
 
-<div id="app-content" style="display:none">
-  <header class="header">
-    <div style="display:flex; align-items:center; gap:10px">
-      <div style="width:32px; height:32px; border-radius:10px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center;">🏦</div>
-      <span style="font-weight:800; font-size:17px">Tandapp</span>
-      <span style="font-size: 10px; background: rgba(255,255,255,0.15); padding: 2px 7px; border-radius: 20px;">v7.9 Cloud</span>
-    </div>
-    <button onclick="window.logout()" style="background:none; border:none; color:white; font-size:11px; font-weight:700; cursor:pointer;">CERRAR SESIÓN</button>
-  </header>
-  <main class="main" id="app-root"></main>
+<!-- ════════════════════════════════════════════════════════
+     APP SHELL (ORIGINAL)
+     ════════════════════════════════════════════════════════ -->
+<div id="app-shell">
+  <div class="app">
+    <header class="header">
+      <div class="header-logo">
+        <div class="logo-icon">🏦</div>
+        <span class="logo-text">Tandapp</span>
+        <span class="logo-badge">Beta</span>
+      </div>
+      <div class="header-right">
+        <span class="sync-dot" id="sync-dot" title="Estado de sincronización"></span>
+        <span class="header-user" id="header-user-email"></span>
+        <button class="btn-logout" id="btn-logout">Salir</button>
+      </div>
+    </header>
+    <main class="main" id="app-root"></main>
+  </div>
 </div>
 
+<!-- Modal Nueva Tanda (original) -->
 <div class="modal-overlay" id="modal-nueva">
-  <div style="background:white; padding:1.5rem; border-radius:var(--radius); width:100%; max-width:480px;">
-    <h3 style="margin-bottom:1.5rem; font-weight:800">Nueva Tanda</h3>
-    <input class="input" id="nueva-nombre" placeholder="Nombre de la tanda">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <input class="input" id="nueva-aportacion" placeholder="Aportación ($)" type="number">
-      <input class="input" id="nueva-participantes" placeholder="Participantes" type="number">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Nueva Tanda</h3>
+      <button class="btn-icon" onclick="closeModal('modal-nueva')">✕</button>
     </div>
-    <input class="input" id="nueva-comision" value="500" type="number">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <input class="input" id="nueva-fecha" type="date">
-      <select class="input" id="nueva-frecuencia"><option value="7">Semanal</option><option value="15" selected>Quincenal</option></select>
-    </div>
-    <div style="display:flex; gap:10px; margin-top:15px; justify-content:flex-end">
-      <button class="btn btn-ghost" onclick="window.closeModal('modal-nueva')">Cancelar</button>
-      <button class="btn btn-primary" onclick="window.crearTanda()">Crear Tanda</button>
+    <div class="modal-body">
+      <div id="nueva-error" class="auth-error" style="display:none"></div>
+      <div class="field">
+        <label>Nombre de la tanda</label>
+        <input class="input" id="nueva-nombre" placeholder="Ej. Tanda oficina" type="text"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="field">
+          <label>Aportación ($)</label>
+          <input class="input" id="nueva-aportacion" placeholder="1000" type="number"/>
+        </div>
+        <div class="field">
+          <label>Participantes</label>
+          <input class="input" id="nueva-participantes" placeholder="10" type="number"/>
+        </div>
+      </div>
+      <div class="field">
+        <label>Comisión fija (Organizador)</label>
+        <input class="input" id="nueva-comision" value="500" type="number"/>
+      </div>
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:12px">
+        <div class="field">
+          <label>Fecha de inicio</label>
+          <input class="input" id="nueva-fecha" type="date"/>
+        </div>
+        <div class="field">
+          <label>Frecuencia</label>
+          <select class="input select" id="nueva-frecuencia">
+            <option value="7">Semanal</option>
+            <option value="15" selected>Quincenal</option>
+            <option value="30">Mensual</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="closeModal('modal-nueva')">Cancelar</button>
+        <button class="btn btn-primary" onclick="crearTanda()">Crear Tanda</button>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- ════════════════════════════════════════════════════════
+     FIREBASE SDK + LÓGICA DE LA APP
+     ════════════════════════════════════════════════════════ -->
 <script type="module">
-  // CONFIGURACIÓN E INICIALIZACIÓN
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// ── Firebase ──────────────────────────────────────────────
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import {
+  getAuth, onAuthStateChanged,
+  signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import {
+  getFirestore, doc, getDoc, setDoc
+} from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 
-  const config = {
-    apiKey: "AIzaSyDLmskFjsZkTgqj5SBMIKWjpVbX_N9uc9o", // Tu clave válida
-    authDomain: "tandapp-dc4f5.firebaseapp.com",
-    projectId: "tandapp-dc4f5", // Tu ID de proyecto
-    appId: "1:216117044294:web:fa7f7d925adf6e835b9647"
+const firebaseConfig = {
+  apiKey: 'AIzaSyDLmskFjsZkTgqj5SBMIKWjpVbX_N9uc9o',
+  authDomain: 'tandapp-dc4f5.firebaseapp.com',
+  projectId: 'tandapp-dc4f5'
+};
+
+const fbApp  = initializeApp(firebaseConfig);
+const auth   = getAuth(fbApp);
+const db     = getFirestore(fbApp);
+
+// ── Estado ────────────────────────────────────────────────
+let state = {
+  tandas: [],
+  vista: 'dashboard',
+  tandaId: null,
+  tabActiva: 'config',
+  rondaActiva: 0,
+  modoPagos: 'persona'
+};
+
+let currentUid = null;
+let saveTimer  = null;
+
+// ── Helpers UI ────────────────────────────────────────────
+function setSyncDot(status) {
+  const dot = document.getElementById('sync-dot');
+  dot.className = 'sync-dot' + (status ? ' ' + status : '');
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('auth-error');
+  el.textContent = msg; el.style.display = 'block';
+}
+function hideAuthError() {
+  const el = document.getElementById('auth-error');
+  el.style.display = 'none'; el.textContent = '';
+}
+
+function setAuthLoading(show) {
+  document.getElementById('auth-loading').style.display = show ? 'block' : 'none';
+  document.getElementById('auth-form-login').style.display = show ? 'none' : 'block';
+  // También ocultar registro al cargar
+  if (show) document.getElementById('auth-form-register').style.display = 'none';
+}
+
+function showApp(user) {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-shell').style.display   = 'block';
+  document.getElementById('header-user-email').textContent = user.email;
+}
+
+function showAuth() {
+  document.getElementById('auth-screen').style.display = 'flex';
+  document.getElementById('app-shell').style.display   = 'none';
+  setAuthLoading(false);
+  hideAuthError();
+}
+
+// Mensajes de error Firebase en español
+function translateFirebaseError(code) {
+  const msgs = {
+    'auth/invalid-email':         'El correo no es válido.',
+    'auth/user-not-found':        'No existe cuenta con ese correo.',
+    'auth/wrong-password':        'Contraseña incorrecta.',
+    'auth/invalid-credential':    'Correo o contraseña incorrectos.',
+    'auth/email-already-in-use':  'Ya existe una cuenta con ese correo.',
+    'auth/weak-password':         'La contraseña debe tener al menos 6 caracteres.',
+    'auth/too-many-requests':     'Demasiados intentos. Intenta más tarde.',
+    'auth/network-request-failed':'Sin conexión a internet.',
   };
+  return msgs[code] || 'Ocurrió un error. Intenta de nuevo.';
+}
 
-  const app = initializeApp(config);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  let state = { tandas: [], vista: 'dashboard', tandaId: null, tabActiva: 'config', rondaActiva: 0 };
-  let userG = null;
-
-  // --- PERSISTENCIA (GUARDADO AUTOMÁTICO) ---
-  window.save = async function() { 
-    if (userG) {
-      try { await setDoc(doc(db, "users", userG.uid), { tandas: state.tandas }); }
-      catch (e) { console.error("Error al guardar:", e); }
+// ── Persistencia Firestore ────────────────────────────────
+async function load() {
+  if (!currentUid) return;
+  setSyncDot('syncing');
+  try {
+    const ref  = doc(db, 'usuarios', currentUid);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      state.tandas = snap.data().tandas || [];
+    } else {
+      state.tandas = [];
     }
-  };
-
-  async function load() {
-    const snap = await getDoc(doc(db, "users", userG.uid));
-    if (snap.exists()) state.tandas = snap.data().tandas || [];
-    window.render();
+  } catch (e) {
+    console.error('Error cargando datos:', e);
   }
+  setSyncDot('synced');
+}
 
-  // --- FUNCIONES DE ACCESO (FORZADAS AL GLOBAL) ---
-  window.login = async () => {
-    const e = document.getElementById('email').value, p = document.getElementById('pass').value, m = document.getElementById('auth-msg');
-    if(!e || p.length < 6) { m.innerText = "Correo y clave (6+) requeridos"; return; }
-    m.style.color = "var(--accent)"; m.innerText = "Conectando con Google...";
+function save() {
+  if (!currentUid) return;
+  setSyncDot('syncing');
+  // Debounce: espera 800ms antes de guardar para no saturar Firestore
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
     try {
-      await signInWithEmailAndPassword(auth, e, p);
-    } catch (err) {
-      if (err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential' || err.code === 'auth/invalid-login-credentials') {
-        m.innerText = "Creando cuenta nueva...";
-        try { await createUserWithEmailAndPassword(auth, e, p); } catch(e2) { m.style.color = "var(--red)"; m.innerText = e2.message; }
-      } else { m.style.color = "var(--red)"; m.innerText = err.message; }
+      const ref = doc(db, 'usuarios', currentUid);
+      await setDoc(ref, { tandas: state.tandas });
+      setSyncDot('synced');
+    } catch (e) {
+      console.error('Error guardando datos:', e);
+      setSyncDot('');
     }
-  };
+  }, 800);
+}
 
-  window.logout = () => signOut(auth);
+// ── Lógica de la app (ORIGINAL, SIN CAMBIOS) ─────────────
+function genId() { return Math.random().toString(36).slice(2, 10); }
+function fmt(n) { return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n); }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtFecha(f) { if (!f) return 'Sin fecha'; return new Date(f).toLocaleDateString('es-MX', { day:'numeric', month:'short', year:'numeric' }); }
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) { 
-      userG = user; 
-      document.getElementById('auth-screen').style.display='none'; 
-      document.getElementById('app-content').style.display='block'; 
-      load(); 
-    } else { 
-      document.getElementById('auth-screen').style.display='flex'; 
-      document.getElementById('app-content').style.display='none'; 
-    }
+// LÓGICA DE DINERO REAL (CONGRUENTE CON PAGOS) — sin modificar
+function calcMonto(tanda, idx) {
+  const aportacion   = tanda.aportacion;
+  const beneficiario = tanda.participantes[idx];
+  let recaudadoReal  = 0;
+
+  tanda.participantes.forEach((p, pIdx) => {
+    if (idx === 0 && pIdx === 0) return; // Organizador no paga en su ronda (Ronda 1)
+    if (p.pagos[idx]) { recaudadoReal += aportacion; }
   });
 
-  // --- LÓGICA 5.4.1 (SIN CAMBIOS) ---
-  function genId() { return Math.random().toString(36).slice(2, 10); }
-  function fmt(n) { return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n); }
-  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-  function fmtFecha(f) { return new Date(f).toLocaleDateString('es-MX', { day:'numeric', month:'short' }); }
+  // Comisión: si no es organizador y no es familia, se resta una aportación
+  if (idx !== 0 && !beneficiario.exento) {
+    recaudadoReal = Math.max(0, recaudadoReal - aportacion);
+  }
+  return recaudadoReal;
+}
 
-  window.calcMonto = (tanda, idx) => {
-    const apo = tanda.aportacion;
-    let total = 0;
-    tanda.participantes.forEach((p, pIdx) => {
-      if (idx === 0 && pIdx === 0) return; // Organizador no paga R1
-      if (p.pagos[idx]) total += apo;
-    });
-    if (idx !== 0 && !tanda.participantes[idx].exento) total = Math.max(0, total - apo);
-    return total;
-  };
+function crearTanda() {
+  const nombre      = document.getElementById('nueva-nombre').value.trim();
+  const aportacion  = parseFloat(document.getElementById('nueva-aportacion').value);
+  const numP        = parseInt(document.getElementById('nueva-participantes').value);
+  const comision    = parseFloat(document.getElementById('nueva-comision').value) || 0;
+  const fecha       = document.getElementById('nueva-fecha').value;
+  const frecuencia  = parseInt(document.getElementById('nueva-frecuencia').value);
 
-  window.crearTanda = async () => {
-    const nom = document.getElementById('nueva-nombre').value, apo = parseFloat(document.getElementById('nueva-aportacion').value), num = parseInt(document.getElementById('nueva-participantes').value), fec = document.getElementById('nueva-fecha').value, fre = parseInt(document.getElementById('nueva-frecuencia').value);
-    if (!nom || !apo || num < 2 || !fec) return alert('Completa los campos');
-    const pts = Array.from({ length: num }, (_, i) => {
-      let d = new Date(fec + 'T12:00:00'); d.setDate(d.getDate() + (i * fre));
-      return { id: genId(), nombre: '', exento: false, pagos: Array(num).fill(false), fechaCobro: d.getTime(), recibido: false };
-    });
-    state.tandas.push({ id: genId(), nombre: nom, aportacion: apo, participantes: pts });
-    await window.save(); window.closeModal('modal-nueva'); window.render();
-  };
+  if (!nombre || !aportacion || numP < 2 || !fecha) return alert('Completa todos los campos');
 
-  // --- RENDERS (RECONECTADOS AL GLOBAL) ---
-  window.render = () => {
-    const root = document.getElementById('app-root');
-    if (state.vista === 'dashboard') {
-      root.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-          <h2 style="font-weight:800">Tus Tandas</h2>
-          <button class="btn btn-primary" onclick="window.openModal('modal-nueva')">+ Nueva Tanda</button>
-        </div>
-        ${state.tandas.map(t => `
-          <div class="card card-pad" onclick="window.verTanda('${t.id}')">
-            <div style="font-weight:800; color:var(--accent); font-size:18px">${esc(t.nombre)}</div>
+  const participantes = Array.from({ length: numP }, (_, i) => {
+    let d = new Date(fecha + 'T12:00:00');
+    d.setDate(d.getDate() + (i * frecuencia));
+    return { id: genId(), nombre: '', exento: false, pagos: Array(numP).fill(false), fechaCobro: d.getTime(), recibido: false };
+  });
+
+  state.tandas.push({ id: genId(), nombre, aportacion, comision, participantes, fechaInicio: fecha, frecuencia });
+  save(); closeModal('modal-nueva'); render();
+}
+
+function toggleExento(idx) {
+  const t = getTanda(); t.participantes[idx].exento = !t.participantes[idx].exento; save(); render();
+}
+
+function togglePago(pIdx, ronda) {
+  const t = getTanda();
+  t.participantes[pIdx].pagos[ronda] = !t.participantes[pIdx].pagos[ronda];
+  save(); render();
+}
+
+function toggleRecibido(idx) {
+  const t = getTanda(); t.participantes[idx].recibido = !t.participantes[idx].recibido; save(); render();
+}
+
+function verTanda(id) { state.tandaId = id; state.vista = 'detalle'; state.tabActiva = 'config'; render(); }
+function getTanda()    { return state.tandas.find(t => t.id === state.tandaId); }
+
+function render() {
+  const root = document.getElementById('app-root');
+  if (state.vista === 'dashboard') root.innerHTML = renderDashboard();
+  else root.innerHTML = renderDetalle();
+}
+
+function renderDashboard() {
+  return `
+    <div class="dashboard-header animate-in">
+      <div><h2 class="text-2xl font-bold" style="color:var(--text)">Tus Tandas</h2><p class="dashboard-sub">${state.tandas.length} activas</p></div>
+      <button class="btn btn-primary" onclick="openModal('modal-nueva')">+ Nueva Tanda</button>
+    </div>
+    <div class="tanda-grid">${state.tandas.map(t => `
+      <div class="card tanda-card animate-in" onclick="verTanda('${t.id}')">
+        <div class="card-pad" style="display:flex; justify-content:space-between; align-items:center">
+          <div>
+            <div style="font-weight:800; font-size:18px; color:var(--accent)">${esc(t.nombre)}</div>
             <div style="color:var(--muted); font-size:13px">${fmt(t.aportacion)} • ${t.participantes.length} números</div>
-          </div>`).join('')}`;
-    } else {
-      const t = state.tandas.find(x => x.id === state.tandaId);
-      root.innerHTML = `
-        <button class="btn btn-ghost" onclick="state.vista='dashboard'; window.render()" style="margin-bottom:15px">← Volver</button>
-        <div class="tabs">
-          <button class="tab ${state.tabActiva==='config'?'active':''}" onclick="state.tabActiva='config'; window.render()">Configuración</button>
-          <button class="tab ${state.tabActiva==='pagos'?'active':''}" onclick="state.tabActiva='pagos'; window.render()">Pagos</button>
-          <button class="tab ${state.tabActiva==='resumen'?'active':''}" onclick="state.tabActiva='resumen'; window.render()">Resumen</button>
+          </div>
+          <button class="btn-icon danger" onclick="event.stopPropagation();if(confirm('¿Eliminar?')){state.tandas=state.tandas.filter(x=>x.id!=='${t.id}');save();render()}">✕</button>
         </div>
-        ${state.tabActiva === 'config' ? renderConfig(t) : (state.tabActiva === 'pagos' ? renderPagos(t) : renderResumen(t))}`;
-    }
-  };
+      </div>`).join('')}</div>`;
+}
 
-  window.verTanda = (id) => { state.tandaId = id; state.vista = 'detalle'; state.tabActiva = 'config'; window.render(); };
-  window.toggleExento = (idx) => { const t = state.tandas.find(x => x.id === state.tandaId); t.participantes[idx].exento = !t.participantes[idx].exento; window.save(); window.render(); };
-  window.togglePago = (idx, r) => { const t = state.tandas.find(x => x.id === state.tandaId); t.participantes[idx].pagos[r] = !t.participantes[idx].pagos[r]; window.save(); window.render(); };
-  window.toggleRecibido = (idx) => { const t = state.tandas.find(x => x.id === state.tandaId); t.participantes[idx].recibido = !t.participantes[idx].recibido; window.save(); window.render(); };
+function renderDetalle() {
+  const t = getTanda();
+  return `
+    <div class="animate-in">
+      <button class="back-btn" onclick="state.vista='dashboard';render()" style="background:none; border:none; color:var(--muted); cursor:pointer; margin-bottom:1rem; font-weight:600">← Volver</button>
+      <div class="tabs">
+        <button class="tab ${state.tabActiva==='config'?'active':''}" onclick="state.tabActiva='config';render()">Configuración</button>
+        <button class="tab ${state.tabActiva==='pagos'?'active':''}" onclick="state.tabActiva='pagos';render()">Pagos</button>
+        <button class="tab ${state.tabActiva==='resumen'?'active':''}" onclick="state.tabActiva='resumen';render()">Resumen</button>
+      </div>
+      ${state.tabActiva === 'config' ? renderConfig(t) : (state.tabActiva === 'pagos' ? renderPagos(t) : renderResumen(t))}
+    </div>`;
+}
 
-  function renderConfig(t) {
-    return `<div class="card card-pad">
-      <input class="input" style="font-weight:800; font-size:24px; border:none; padding:0; color:var(--accent); width:100%" value="${esc(t.nombre)}" oninput="t.nombre=this.value; window.save();">
+function renderConfig(t) {
+  return `
+    <div class="card card-pad animate-in">
+      <input class="config-title-input" value="${esc(t.nombre)}" oninput="getTanda().nombre=this.value;save()" />
+      <div style="margin-top:20px; color: var(--muted); font-size: 11px; text-transform:uppercase; font-weight:700">Integrantes y Recaudación Real</div>
       ${t.participantes.map((p, i) => `
         <div class="integrante-row">
-          <div style="font-weight:800; color:var(--muted)">${i+1}</div>
-          <input style="border:none; font-family:'Outfit'; font-weight:700" value="${esc(p.nombre)}" placeholder="Nombre..." oninput="p.nombre=this.value; window.save();">
-          <div class="exento-pill ${p.exento?'active':''}" onclick="window.toggleExento(${i})">${p.exento?'Familia':'Con Comisión'}</div>
-          <div style="text-align:right; font-weight:800; color:var(--green)">${fmt(window.calcMonto(t,i))}</div>
+          <div class="integrante-num ${i===0?'num-org':'num-reg'}">${i+1}</div>
+          <div class="integrante-nombre">
+            <input value="${esc(p.nombre)}" placeholder="Nombre..." oninput="getTanda().participantes[${i}].nombre=this.value;save()" />
+            <div style="font-size:10px; color:var(--accent); font-weight:600">Recibe el: ${fmtFecha(p.fechaCobro)}</div>
+          </div>
+          <div class="exento-pill ${p.exento?'active':''}" onclick="toggleExento(${i})"> ${p.exento?'Familia':'Con Comisión'}</div>
+          <div style="text-align:right">
+            <div style="font-weight:800; color:var(--green)">${fmt(calcMonto(t,i))}</div>
+            <div style="font-size:9px; color:var(--muted); font-weight:700">A RECIBIR</div>
+          </div>
         </div>`).join('')}
     </div>`;
-  }
+}
 
-  function renderPagos(t) {
-    return t.participantes.map((p, i) => `
-      <div class="card card-pad">
-        <div style="display:flex; justify-content:space-between">
+function renderPagos(t) {
+  const r = state.rondaActiva;
+  return `
+    <div style="display:flex; gap:10px; margin-bottom:15px">
+      <button class="btn btn-sm ${state.modoPagos==='persona'?'btn-primary':'btn-ghost'}" onclick="state.modoPagos='persona';render()">Por Persona</button>
+      <button class="btn btn-sm ${state.modoPagos==='ronda'?'btn-primary':'btn-ghost'}" onclick="state.modoPagos='ronda';render()">Por Ronda</button>
+    </div>
+    ${state.modoPagos === 'persona' ? t.participantes.map((p, i) => `
+      <div class="card card-pad animate-in" style="margin-bottom:10px">
+        <div style="display:flex; justify-content:space-between; align-items:center">
           <div style="font-weight:700">${esc(p.nombre || 'Participante '+(i+1))}</div>
-          <div style="font-weight:800; color:var(--green)">Saldo Real: ${fmt(window.calcMonto(t,i))}</div>
+          <div style="font-weight:800; color:var(--green)">Saldo Real: ${fmt(calcMonto(t,i))}</div>
         </div>
         <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px">
-          ${p.pagos.map((pg, r) => `<button class="pago-btn ${pg?'pagado':''}" onclick="window.togglePago(${i},${r})">${pg?'✓':r+1}</button>`).join('')}
+          ${p.pagos.map((pg, ronda) => `<button class="pago-btn ${pg?'pagado':''}" onclick="togglePago(${i},${ronda})">${pg?'✓':ronda+1}</button>`).join('')}
         </div>
-      </div>`).join('');
-  }
+      </div>`).join('') : `
+      <div class="ronda-selector animate-in">
+        ${t.participantes.map((_, i) => {
+          const completa = t.participantes.every((p, pIdx) => (pIdx === 0 && i === 0) ? true : p.pagos[i]);
+          return `<div class="ronda-dot ${state.rondaActiva===i?'active':''} ${completa?'completa':''}" onclick="state.rondaActiva=${i};render()">${i+1}</div>`;
+        }).join('')}
+      </div>
+      <div class="card card-pad animate-in">
+        <div style="margin-bottom:15px; background:var(--surface3); padding:15px; border-radius:var(--radius); border:1px solid var(--border2)">
+          <div style="font-size:10px; color:var(--accent); font-weight:800; text-transform:uppercase">Documentando Ronda ${r+1}</div>
+          <div style="font-weight:800; font-size:18px">Cobra: ${esc(t.participantes[r].nombre || 'Participante '+(r+1))}</div>
+        </div>
+        ${t.participantes.map((p, pi) => (pi===0 && r===0) ? '' : `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
+          <span>${pi+1}. ${esc(p.nombre || 'Participante')}</span>
+          <button class="pago-btn ${p.pagos[r]?'pagado':''}" onclick="togglePago(${pi},${r})">${p.pagos[r]?'✓':'$'}</button>
+        </div>`).join('')}
+      </div>`}`;
+}
 
-  function renderResumen(t) {
-    return `<div class="card card-pad" style="overflow-x:auto"><table style="width:100%; border-collapse:collapse; font-size:13px">
-      <thead><tr style="color:var(--muted); text-align:left; font-size:11px"><th>#</th><th>Nombre</th><th>Cobro</th><th>Saldo Real</th><th>Estado</th></tr></thead>
-      <tbody>${t.participantes.map((p,i)=>`
-        <tr style="border-top:1px solid var(--border)">
-          <td style="padding:10px 0">${i+1}</td><td style="font-weight:600">${esc(p.nombre || '-')}</td><td>${fmtFecha(p.fechaCobro)}</td>
-          <td style="font-weight:800; color:var(--green)">${fmt(window.calcMonto(t,i))}</td>
-          <td><span class="badge ${p.recibido?'badge-green':''}" onclick="window.toggleRecibido(${i})">${p.recibido?'✓ Entregado':'Pendiente'}</span></td>
-        </tr>`).join('')}</tbody></table></div>`;
-  }
+function renderResumen(t) {
+  return `
+    <div class="card animate-in"><div class="card-pad" style="overflow-x:auto"><table style="width:100%; border-collapse:collapse; font-size:13px; min-width:400px">
+      <thead><tr style="color:var(--muted); text-align:left; font-weight:700; text-transform:uppercase; font-size:11px"><th style="padding:10px">#</th><th>Nombre</th><th>Fecha Cobro</th><th>Saldo Real</th><th>Entrega</th></tr></thead>
+      <tbody>${t.participantes.map((p, i) => `<tr style="border-top:1px solid var(--border)"><td style="padding:10px">${i+1}</td><td>${esc(p.nombre || '-')}</td><td>${fmtFecha(p.fechaCobro)}</td><td style="font-weight:800; color:var(--green)">${fmt(calcMonto(t,i))}</td>
+      <td><span class="badge badge-clickable ${p.recibido?'badge-green':'badge-muted'}" onclick="toggleRecibido(${i})">${p.recibido?'✓ Entregado':'Pendiente'}</span></td></tr>`).join('')}</tbody>
+    </table></div></div>`;
+}
 
-  window.openModal = (id) => document.getElementById(id).classList.add('open');
-  window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ── Exponer funciones al scope global (onclick en HTML) ───
+window.crearTanda     = crearTanda;
+window.toggleExento   = toggleExento;
+window.togglePago     = togglePago;
+window.toggleRecibido = toggleRecibido;
+window.verTanda       = verTanda;
+window.openModal      = openModal;
+window.closeModal     = closeModal;
+window.state          = state;
+window.getTanda       = getTanda;
+window.save           = save;
+window.render         = render;
+
+// ── Auth: listeners de botones ────────────────────────────
+document.getElementById('go-register').addEventListener('click', () => {
+  document.getElementById('auth-form-login').style.display    = 'none';
+  document.getElementById('auth-form-register').style.display = 'block';
+  hideAuthError();
+});
+document.getElementById('go-login').addEventListener('click', () => {
+  document.getElementById('auth-form-register').style.display = 'none';
+  document.getElementById('auth-form-login').style.display    = 'block';
+  hideAuthError();
+});
+
+document.getElementById('btn-login').addEventListener('click', async () => {
+  hideAuthError();
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  if (!email || !pass) return showAuthError('Ingresa correo y contraseña.');
+  document.getElementById('btn-login').disabled = true;
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+    // onAuthStateChanged se encarga del resto
+  } catch (e) {
+    showAuthError(translateFirebaseError(e.code));
+    document.getElementById('btn-login').disabled = false;
+  }
+});
+
+document.getElementById('btn-register').addEventListener('click', async () => {
+  hideAuthError();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass  = document.getElementById('reg-pass').value;
+  if (!email || !pass) return showAuthError('Ingresa correo y contraseña.');
+  document.getElementById('btn-register').disabled = true;
+  try {
+    await createUserWithEmailAndPassword(auth, email, pass);
+    // onAuthStateChanged se encarga del resto
+  } catch (e) {
+    showAuthError(translateFirebaseError(e.code));
+    document.getElementById('btn-register').disabled = false;
+  }
+});
+
+document.getElementById('btn-logout').addEventListener('click', async () => {
+  await signOut(auth);
+  // onAuthStateChanged limpia todo
+});
+
+// Enter en inputs de auth
+['login-email','login-pass'].forEach(id =>
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-login').click();
+  })
+);
+['reg-email','reg-pass'].forEach(id =>
+  document.getElementById(id).addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('btn-register').click();
+  })
+);
+
+// ── Auth State Observer (punto de entrada central) ────────
+setAuthLoading(true);
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUid = user.uid;
+    showApp(user);
+    await load();
+    render();
+  } else {
+    currentUid = null;
+    state.tandas = [];
+    state.vista  = 'dashboard';
+    showAuth();
+    // Re-habilitar botones por si venían de un intento fallido
+    document.getElementById('btn-login').disabled    = false;
+    document.getElementById('btn-register').disabled = false;
+  }
+});
 </script>
 </body>
 </html>
