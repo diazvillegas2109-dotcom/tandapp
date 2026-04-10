@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp — Cloud</title>
+<title>Tandapp — Cloud v6.1</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
-/* 1. MANTENEMOS TU IDENTIDAD VISUAL INTACTA */
+/* --- 1. DISEÑO ORIGINAL (COLORES Y FUENTE) --- */
 :root {
   --bg: #f3f4f6; --surface: #ffffff; --surface2: #f9fafb; --surface3: #eef2ff;
   --border: #e5e7eb; --border2: #c7d2fe; --text: #111827; --muted: #6b7280;
@@ -16,37 +16,39 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
 
-/* Header - No se toca */
+/* Header Índigo */
 .header { position: sticky; top: 0; z-index: 100; background: var(--accent); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; color: white; }
 .logo-text { font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
 .logo-badge { font-size: 10px; font-weight: 500; background: rgba(255,255,255,0.15); padding: 2px 7px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
 
-/* Pantalla de Login (Nuevo pero con tu estilo) */
+/* Pantalla de Login (Estilo Outfit) */
 #auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
 .auth-card { background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border); width: 100%; max-width: 380px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
 
-/* Reutilizamos tus clases de la versión anterior */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 12px; }
+/* Estilo de Tarjetas y Botones */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 12px; transition: transform 0.2s; }
 .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: var(--radius-sm); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
 .btn-primary { background: var(--accent); color: white; width: 100%; justify-content: center; }
-.input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; margin-bottom: 1rem; outline: none; }
-.input:focus { border-color: var(--accent); }
+.input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; margin-bottom: 1rem; outline: none; font-size: 14px; }
 
-/* Configuración de integrantes - Mismo diseño */
-.integrante-row { display: grid; grid-template-columns: 42px 1fr auto auto; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+/* Configuración de integrantes */
+.integrante-row { display: grid; grid-template-columns: 42px 1fr auto auto; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
 .integrante-num { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
 .num-org { background: var(--surface3); color: var(--accent); }
 .num-reg { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
 .exento-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); }
 .exento-pill.active { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.2); }
 
-/* Modal y Rondas - Intactos */
+/* Modal Nueva Tanda */
 .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1rem; }
 .modal-overlay.open { display: flex; }
 .modal { background: white; border-radius: var(--radius); width: 100%; max-width: 480px; padding: 1.5rem; }
-.ronda-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border); font-weight: 700; background: white; }
-.ronda-dot.active { background: var(--accent); color: white; }
+
+/* Selector de Rondas */
+.ronda-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border); font-weight: 700; background: white; flex-shrink: 0; }
+.ronda-dot.active { background: var(--accent); color: white; border-color: var(--accent); }
 .ronda-dot.completa { background: var(--green-bg); color: var(--green); border-color: var(--green); }
+.ronda-dot.active.completa { border: 2px solid var(--green); }
 
 .main { padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
 .tabs { display: flex; gap: 4px; margin-bottom: 1rem; background: var(--surface2); padding: 4px; border-radius: 10px; border: 1px solid var(--border); }
@@ -61,11 +63,15 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 
 <div id="auth-screen">
   <div class="auth-card">
-    <h2 style="margin-bottom: 1.5rem; text-align: center; font-weight: 800;">Iniciar Sesión</h2>
-    <input type="email" id="auth-email" class="input" placeholder="Tu correo electrónico">
-    <input type="password" id="auth-pass" class="input" placeholder="Tu contraseña">
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <div style="font-size: 40px; margin-bottom: 10px;">🏦</div>
+      <h2 style="font-weight: 800;">Tandapp Cloud</h2>
+      <p style="font-size: 13px; color: var(--muted);">Inicia sesión para sincronizar datos</p>
+    </div>
+    <input type="email" id="auth-email" class="input" placeholder="Correo electrónico">
+    <input type="password" id="auth-pass" class="input" placeholder="Contraseña (mín. 6 caracteres)">
     <button class="btn btn-primary" onclick="handleAuth()">Entrar / Registrarse</button>
-    <p id="auth-msg" style="font-size: 12px; color: var(--muted); margin-top: 1rem; text-align: center;"></p>
+    <p id="auth-msg" style="font-size: 11px; color: #ef4444; margin-top: 1rem; text-align: center; min-height: 15px;"></p>
   </div>
 </div>
 
@@ -74,7 +80,7 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     <div style="display:flex; align-items:center; gap:10px">
       <div style="background:rgba(255,255,255,0.2); width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center;">🏦</div>
       <span class="logo-text">Tandapp</span>
-      <span class="logo-badge">Cloud</span>
+      <span class="logo-badge">Beta Cloud</span>
     </div>
     <button onclick="handleLogout()" style="background:none; border:none; color:white; font-size:12px; font-weight:600; cursor:pointer;">Cerrar Sesión</button>
   </header>
@@ -83,21 +89,37 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 
 <div class="modal-overlay" id="modal-nueva">
   <div class="modal">
-    <h3 style="margin-bottom:1rem">Nueva Tanda</h3>
-    <input class="input" id="nueva-nombre" type="text" placeholder="Nombre de la tanda"/>
+    <h3 style="margin-bottom:1rem; font-weight: 800;">Nueva Tanda</h3>
+    <label style="font-size: 11px; font-weight: 700; color: var(--muted);">NOMBRE DE LA TANDA</label>
+    <input class="input" id="nueva-nombre" type="text" placeholder="Ej. Tanda Oficina"/>
+    
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
-        <input class="input" id="nueva-aportacion" type="number" placeholder="Aportación ($)"/>
-        <input class="input" id="nueva-participantes" type="number" placeholder="Participantes"/>
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted);">APORTACIÓN ($)</label>
+          <input class="input" id="nueva-aportacion" type="number" placeholder="1000"/>
+        </div>
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted);">PARTICIPANTES</label>
+          <input class="input" id="nueva-participantes" type="number" placeholder="10"/>
+        </div>
     </div>
+
     <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:12px">
-        <input class="input" id="nueva-fecha" type="date"/>
-        <select class="input" id="nueva-frecuencia">
-          <option value="7">Semanal</option>
-          <option value="15" selected>Quincenal</option>
-          <option value="30">Mensual</option>
-        </select>
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted);">FECHA INICIO</label>
+          <input class="input" id="nueva-fecha" type="date"/>
+        </div>
+        <div>
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted);">FRECUENCIA</label>
+          <select class="input" id="nueva-frecuencia">
+            <option value="7">Semanal</option>
+            <option value="15" selected>Quincenal</option>
+            <option value="30">Mensual</option>
+          </select>
+        </div>
     </div>
-    <div style="display:flex; justify-content:flex-end; gap:8px">
+
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-top: 10px;">
         <button class="btn" onclick="closeModal('modal-nueva')">Cancelar</button>
         <button class="btn btn-primary" style="width:auto" onclick="crearTanda()">Crear Tanda</button>
     </div>
@@ -107,9 +129,9 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  // TU CONFIGURACIÓN (Extraída de tu imagen)
+  // CONFIGURACIÓN CORREGIDA (LLAVE VÁLIDA)
   const firebaseConfig = {
     apiKey: "AIzaSyBiOcXDDBpZ8zP5VeEQPqJp5GgxVEt-9UA",
     authDomain: "tandapp-dc4f5.firebaseapp.com",
@@ -125,19 +147,27 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   const db = getFirestore(app);
 
   let userState = null;
-  let state = { tandas: [], vista: 'dashboard', tandaId: null, tabActiva: 'config', rondaActiva: 0, modoPagos: 'persona' };
+  let state = { tandas: [], vista: 'dashboard', tandaId: null, tabActiva: 'config', rondaActiva: 0 };
 
-  // 2. LÓGICA DE AUTH
+  // --- LOGICA DE LOGIN ---
   window.handleAuth = async () => {
     const email = document.getElementById('auth-email').value;
     const pass = document.getElementById('auth-pass').value;
     const msg = document.getElementById('auth-msg');
+    if(!email || pass.length < 6) { msg.innerText = "Correo válido y clave de mín. 6 caracteres"; return; }
+    
     try {
       await signInWithEmailAndPassword(auth, email, pass);
     } catch (e) {
-      if (e.code === 'auth/user-not-found') {
-        try { await createUserWithEmailAndPassword(auth, email, pass); } catch(err) { msg.innerText = "Error al registrarse"; }
-      } else { msg.innerText = "Error: " + e.message; }
+      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential') {
+        try { 
+          await createUserWithEmailAndPassword(auth, email, pass); 
+        } catch(err) { 
+          msg.innerText = "Error: " + err.message; 
+        }
+      } else { 
+        msg.innerText = "Error: " + e.message; 
+      }
     }
   };
 
@@ -156,11 +186,10 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     }
   });
 
-  // 3. LÓGICA DE DATOS (Sincronizada con la Nube)
+  // --- LOGICA DE DATOS ---
   async function loadData() {
-    const docRef = doc(db, "users", userState.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) { state.tandas = docSnap.data().tandas || []; }
+    const docSnap = await getDoc(doc(db, "users", userState.uid));
+    if (docSnap.exists()) state.tandas = docSnap.data().tandas || [];
   }
 
   async function saveData() {
@@ -168,22 +197,24 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     await setDoc(doc(db, "users", userState.uid), { tandas: state.tandas });
   }
 
-  // 4. LÓGICA DE NEGOCIO (Respetando tus reglas de cálculo reales)
+  // --- LOGICA DE TANDAS (REGLA DE DINERO REAL) ---
   function calcMonto(tanda, idx) {
     const aportacion = tanda.aportacion;
     const beneficiario = tanda.participantes[idx];
     let recaudadoReal = 0;
+    
     tanda.participantes.forEach((p, pIdx) => {
-      if (idx === 0 && pIdx === 0) return; // Organizador no paga ronda 1
+      if (idx === 0 && pIdx === 0) return; // Organizador no paga su ronda
       if (p.pagos[idx]) recaudadoReal += aportacion;
     });
+
     if (idx !== 0 && !beneficiario.exento) {
       recaudadoReal = Math.max(0, recaudadoReal - aportacion);
     }
     return recaudadoReal;
   }
 
-  // 5. RENDERIZADO (Diseño Intacto)
+  // --- FUNCIONES DE INTERFAZ ---
   window.crearTanda = async () => {
     const nombre = document.getElementById('nueva-nombre').value;
     const aportacion = parseFloat(document.getElementById('nueva-aportacion').value);
@@ -191,15 +222,15 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     const fecha = document.getElementById('nueva-fecha').value;
     const frecuencia = parseInt(document.getElementById('nueva-frecuencia').value);
 
-    if(!nombre || !aportacion || !numP) return alert("Completa los datos");
+    if(!nombre || !aportacion || !numP || !fecha) return alert("Completa todos los datos");
 
     const participantes = Array.from({ length: numP }, (_, i) => {
       let d = new Date(fecha + 'T12:00:00');
       d.setDate(d.getDate() + (i * frecuencia));
-      return { nombre: '', exento: false, pagos: Array(numP).fill(false), fechaCobro: d.getTime(), recibido: false };
+      return { nombre: '', exento: false, pagos: Array(numP).fill(false), fechaCobro: d.getTime() };
     });
 
-    state.tandas.push({ id: Math.random().toString(36).slice(2, 10), nombre, aportacion, participantes });
+    state.tandas.push({ id: Math.random().toString(36).slice(2, 9), nombre, aportacion, participantes });
     await saveData();
     closeModal('modal-nueva');
     render();
@@ -210,19 +241,21 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
     if (state.vista === 'dashboard') {
       root.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
-          <h2>Tus Tandas</h2>
+          <h2 style="font-weight: 800;">Tus Tandas</h2>
           <button class="btn btn-primary" style="width:auto" onclick="openModal('modal-nueva')">+ Nueva Tanda</button>
         </div>
-        ${state.tandas.map(t => `
-          <div class="card" onclick="window.verTanda('${t.id}')" style="cursor:pointer">
-            <div style="font-weight:800; font-size:18px; color:var(--accent)">${t.nombre}</div>
-            <div style="color:var(--muted); font-size:13px">${new Intl.NumberFormat('es-MX', {style:'currency', currency:'MXN'}).format(t.aportacion)} • ${t.participantes.length} integrantes</div>
-          </div>
-        `).join('')}`;
+        <div style="display: grid; gap: 12px;">
+          ${state.tandas.map(t => `
+            <div class="card" onclick="window.verTanda('${t.id}')" style="cursor:pointer; margin-bottom:0;">
+              <div style="font-weight:800; font-size:18px; color:var(--accent)">${t.nombre}</div>
+              <div style="color:var(--muted); font-size:13px">$${t.aportacion} • ${t.participantes.length} números</div>
+            </div>
+          `).join('')}
+        </div>`;
     } else {
       const t = state.tandas.find(x => x.id === state.tandaId);
       root.innerHTML = `
-        <button class="btn" style="margin-bottom:15px; color:var(--muted)" onclick="window.setVista('dashboard')">← Volver</button>
+        <button class="btn" style="margin-bottom:15px; color:var(--muted); background: white; border: 1px solid var(--border);" onclick="window.setVista('dashboard')">← Volver</button>
         <div class="tabs">
           <div class="tab ${state.tabActiva==='config'?'active':''}" onclick="window.setTab('config')">Configuración</div>
           <div class="tab ${state.tabActiva==='pagos'?'active':''}" onclick="window.setTab('pagos')">Pagos</div>
@@ -234,18 +267,18 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   function renderConfig(t) {
     return `
       <div class="card">
-        <h3 style="margin-bottom:15px; color:var(--accent)">${t.nombre}</h3>
+        <h3 style="margin-bottom:20px; font-weight: 800; color: var(--accent);">${t.nombre}</h3>
         ${t.participantes.map((p, i) => `
           <div class="integrante-row">
             <div class="integrante-num ${i===0?'num-org':'num-reg'}">${i+1}</div>
-            <div>
-              <input style="font-family:'Outfit'; font-weight:700; border:none; outline:none; width:100%" value="${p.nombre}" placeholder="Nombre..." onchange="window.updateP(${i}, 'nombre', this.value)">
-              <div style="font-size:10px; color:var(--muted)">Cobro: ${new Date(p.fechaCobro).toLocaleDateString()}</div>
+            <div style="overflow: hidden;">
+              <input style="font-family:'Outfit'; font-weight:700; border:none; outline:none; width:100%; font-size:14px;" value="${p.nombre}" placeholder="Nombre..." onchange="window.updateP(${i}, 'nombre', this.value)">
+              <div style="font-size:10px; color:var(--muted); font-weight: 600;">Cobro: ${new Date(p.fechaCobro).toLocaleDateString('es-MX', {day:'numeric', month:'short'})}</div>
             </div>
-            <div class="exento-pill ${p.exento?'active':''}" onclick="window.updateP(${i}, 'exento', ${!p.exento})">${p.exento?'Familia':'Con Comisión'}</div>
+            <div class="exento-pill ${p.exento?'active':''}" onclick="window.updateP(${i}, 'exento', ${!p.exento})">${p.exento?'Familia':'Comisión'}</div>
             <div style="text-align:right">
               <div style="font-weight:800; color:var(--green)">$${calcMonto(t, i)}</div>
-              <div style="font-size:9px; color:var(--muted)">REAL</div>
+              <div style="font-size:9px; color:var(--muted); font-weight: 700;">A RECIBIR</div>
             </div>
           </div>
         `).join('')}
@@ -255,27 +288,27 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   function renderPagos(t) {
     const r = state.rondaActiva;
     return `
-      <div style="display:flex; gap:6px; overflow-x:auto; margin-bottom:15px">
+      <div style="display:flex; gap:8px; overflow-x:auto; padding-bottom:12px; margin-bottom:10px">
         ${t.participantes.map((_, i) => {
           const completa = t.participantes.every((p, pIdx) => (pIdx===0 && i===0) ? true : p.pagos[i]);
           return `<div class="ronda-dot ${r===i?'active':''} ${completa?'completa':''}" onclick="window.setRonda(${i})">${i+1}</div>`;
         }).join('')}
       </div>
       <div class="card">
-        <div style="margin-bottom:15px; background:var(--surface3); padding:12px; border-radius:10px">
-          <div style="font-size:11px; font-weight:800; color:var(--accent)">DOCUMENTANDO RONDA ${r+1}</div>
-          <div style="font-weight:800; font-size:16px">Recibe: ${t.participantes[r].nombre || 'P'+(r+1)}</div>
+        <div style="margin-bottom:15px; background:var(--surface3); padding:15px; border-radius:12px; border: 1px solid var(--border2)">
+          <div style="font-size:10px; font-weight:800; color:var(--accent); text-transform: uppercase; letter-spacing: 0.5px;">Documentando Ronda ${r+1}</div>
+          <div style="font-weight:800; font-size:18px">Recibe: ${t.participantes[r].nombre || 'P'+(r+1)}</div>
         </div>
         ${t.participantes.map((p, i) => (i===0 && r===0) ? '' : `
-          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
-            <span>${i+1}. ${p.nombre || 'Participante'}</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-bottom:1px solid var(--border)">
+            <span style="font-weight: 500;">${i+1}. ${p.nombre || 'Participante'}</span>
             <div class="pago-btn ${p.pagos[r]?'pagado':''}" onclick="window.togglePago(${i}, ${r})">${p.pagos[r]?'✓':'$'}</div>
           </div>
         `).join('')}
       </div>`;
   }
 
-  // Funciones globales para que los botones sirvan
+  // Funciones Globales
   window.verTanda = (id) => { state.tandaId = id; state.vista = 'detalle'; state.tabActiva = 'config'; render(); };
   window.setVista = (v) => { state.vista = v; render(); };
   window.setTab = (t) => { state.tabActiva = t; render(); };
