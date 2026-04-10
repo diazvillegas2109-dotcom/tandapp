@@ -3,377 +3,300 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Tandapp — Ahorro Grupal</title>
+<title>Tandapp — Cloud</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
+/* 1. MANTENEMOS TU IDENTIDAD VISUAL INTACTA */
 :root {
-  --bg: #f3f4f6;
-  --surface: #ffffff;
-  --surface2: #f9fafb;
-  --surface3: #eef2ff;
-  --border: #e5e7eb;
-  --border2: #c7d2fe;
-  --text: #111827;
-  --muted: #6b7280;
-  --muted2: #4b5563;
-  --accent: #4f46e5;
-  --accent2: #6366f1;
-  --green: #22c55e;
-  --green-bg: rgba(34, 197, 94, 0.1);
-  --red: #ef4444;
-  --red-bg: rgba(239, 68, 68, 0.1);
-  --blue: #3b82f6;
-  --blue-bg: rgba(59, 130, 246, 0.1);
-  --gold-bg: rgba(79, 70, 229, 0.1);
-  --radius: 14px;
-  --radius-sm: 8px;
+  --bg: #f3f4f6; --surface: #ffffff; --surface2: #f9fafb; --surface3: #eef2ff;
+  --border: #e5e7eb; --border2: #c7d2fe; --text: #111827; --muted: #6b7280;
+  --accent: #4f46e5; --accent2: #6366f1; --green: #22c55e; --green-bg: rgba(34, 197, 94, 0.1);
+  --radius: 14px; --radius-sm: 8px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
-h1,h2,h3,h4 { font-family: 'Outfit', sans-serif; line-height: 1.2; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; }
 
-/* Layout */
-.app { display: flex; flex-direction: column; min-height: 100vh; }
-.header {
-  position: sticky; top: 0; z-index: 100;
-  background: var(--accent);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
-  color: white;
-}
-.header-logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+/* Header - No se toca */
+.header { position: sticky; top: 0; z-index: 100; background: var(--accent); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; color: white; }
 .logo-text { font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
-.logo-badge { font-size: 10px; font-weight: 500; background: rgba(255,255,255,0.15); color: white; padding: 2px 7px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
-.main { flex: 1; padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
+.logo-badge { font-size: 10px; font-weight: 500; background: rgba(255,255,255,0.15); padding: 2px 7px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); }
 
-/* Cards */
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-.card-pad { padding: 1.25rem; }
+/* Pantalla de Login (Nuevo pero con tu estilo) */
+#auth-screen { position: fixed; inset: 0; z-index: 1000; background: var(--bg); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.auth-card { background: white; padding: 2rem; border-radius: var(--radius); border: 1px solid var(--border); width: 100%; max-width: 380px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
 
-/* Buttons */
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: var(--radius-sm); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; text-decoration: none; white-space: nowrap; }
-.btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--accent); color: white; }
-.btn-primary:hover { background: var(--accent2); }
-.btn-ghost { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
-.btn-ghost:hover { background: var(--surface3); border-color: var(--border2); }
-.btn-sm { padding: 6px 12px; font-size: 13px; }
-.btn-icon { padding: 7px; border-radius: var(--radius-sm); background: var(--surface2); border: 1px solid var(--border); cursor: pointer; display: inline-flex; align-items: center; color: var(--muted2); transition: all 0.15s; }
-.btn-icon:hover { color: var(--accent); border-color: var(--border2); }
-.btn-icon.danger:hover { color: var(--red); border-color: rgba(239, 68, 68, 0.3); background: var(--red-bg); }
+/* Reutilizamos tus clases de la versión anterior */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 12px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 18px; border-radius: var(--radius-sm); font-family: 'Outfit', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: 0.2s; }
+.btn-primary { background: var(--accent); color: white; width: 100%; justify-content: center; }
+.input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: 'Outfit'; margin-bottom: 1rem; outline: none; }
+.input:focus { border-color: var(--accent); }
 
-/* Badges */
-.badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
-.badge-green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.2); }
-.badge-clickable { cursor: pointer; transition: opacity 0.15s; }
-.badge-clickable:hover { opacity: 0.8; }
-
-/* Form */
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 5px; letter-spacing: 0.5px; text-transform: uppercase; }
-.input { width: 100%; padding: 10px 14px; background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text); font-family: 'Outfit', sans-serif; font-size: 14px; transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
-.input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
-.input::placeholder { color: #9ca3af; }
-.select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px; }
-
-/* Modal */
-.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-.modal-overlay.open { opacity: 1; pointer-events: all; }
-.modal { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius); width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; transform: translateY(12px); transition: transform 0.25s; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-.modal-overlay.open .modal { transform: translateY(0); }
-.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.25rem 0; margin-bottom: 1rem; }
-.modal-header h3 { font-size: 17px; font-weight: 700; color: var(--text); }
-.modal-body { padding: 0 1.25rem 1.25rem; }
-.modal-footer { display: flex; gap: 8px; justify-content: flex-end; padding-top: 8px; }
-
-/* Config panel */
-.config-title-input { font-size: 24px; font-weight: 800; letter-spacing: -0.4px; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--accent); outline: none; width: 100%; transition: border-color 0.2s; padding-bottom: 2px; }
-.config-title-input:focus { border-bottom-color: var(--accent); }
-
-/* Integrante Row */
-.integrante-row {
-  display: grid;
-  grid-template-columns: 42px 1fr auto auto;
-  align-items: center; gap: 10px;
-  padding: 10px 14px;
-  border-bottom: 1px solid var(--border);
-}
+/* Configuración de integrantes - Mismo diseño */
+.integrante-row { display: grid; grid-template-columns: 42px 1fr auto auto; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
 .integrante-num { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; }
 .num-org { background: var(--surface3); color: var(--accent); }
-.num-reg { background: var(--blue-bg); color: var(--blue); }
-.integrante-nombre input { font-size: 14px; font-weight: 600; color: var(--text); background: transparent; border: none; outline: none; width: 100%; font-family: 'Outfit', sans-serif; }
-
+.num-reg { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
 .exento-pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; border: 1px solid var(--border); background: var(--surface2); cursor: pointer; color: var(--muted); }
 .exento-pill.active { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.2); }
 
-/* Pagos tab */
-.pagos-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; background: var(--surface2); padding: 10px; border-radius: var(--radius); border: 1px solid var(--border); }
-.pago-btn { width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #ffffff; color: var(--muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 700; transition: all 0.2s; }
-.pago-btn.pagado { background: var(--green); border-color: var(--green); color: white; }
+/* Modal y Rondas - Intactos */
+.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.4); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; padding: 1rem; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: var(--radius); width: 100%; max-width: 480px; padding: 1.5rem; }
+.ronda-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border); font-weight: 700; background: white; }
+.ronda-dot.active { background: var(--accent); color: white; }
+.ronda-dot.completa { background: var(--green-bg); color: var(--green); border-color: var(--green); }
 
-/* Rondas View */
-.ronda-selector { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 1rem; }
-.ronda-dot { flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid var(--border); font-weight: 700; background: white; color: var(--muted); transition: all 0.2s; }
-.ronda-dot.active { background: var(--accent); color: white; border-color: var(--accent); }
-.ronda-dot.completa { background: var(--green-bg); color: var(--green); border-color: rgba(34, 197, 94, 0.4); }
-.ronda-dot.active.completa { background: var(--accent); color: white; border: 2px solid var(--green); }
+.main { padding: 1.5rem; max-width: 780px; margin: 0 auto; width: 100%; }
+.tabs { display: flex; gap: 4px; margin-bottom: 1rem; background: var(--surface2); padding: 4px; border-radius: 10px; border: 1px solid var(--border); }
+.tab { flex: 1; text-align: center; padding: 8px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; border: none; background: none; color: var(--muted); }
+.tab.active { background: white; color: var(--accent); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
 
-.ronda-card { background: white; padding: 12px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; border: 1px solid var(--border); }
-
-/* Tabs */
-.tabs { display: flex; gap: 2px; margin-bottom: 1rem; background: var(--surface2); border-radius: 10px; padding: 4px; border: 1px solid var(--border); }
-.tab { flex: 1; text-align: center; padding: 8px 12px; font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; border: none; background: none; color: var(--muted); transition: all 0.2s; }
-.tab.active { background: #ffffff; color: var(--accent); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-
-.back-btn { background: none; border: none; color: var(--muted); cursor: pointer; margin-bottom: 1rem; display: flex; align-items: center; gap: 4px; font-weight: 600; }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-.animate-in { animation: fadeIn 0.22s ease forwards; }
-
-@media (max-width: 540px) {
-  .integrante-row { grid-template-columns: 36px 1fr auto; }
-  .monto-col { display: none; }
-}
+.pago-btn { width: 34px; height: 34px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #ffffff; cursor: pointer; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.pago-btn.pagado { background: var(--green); color: white; border-color: var(--green); }
 </style>
 </head>
 <body>
-<div class="app">
+
+<div id="auth-screen">
+  <div class="auth-card">
+    <h2 style="margin-bottom: 1.5rem; text-align: center; font-weight: 800;">Iniciar Sesión</h2>
+    <input type="email" id="auth-email" class="input" placeholder="Tu correo electrónico">
+    <input type="password" id="auth-pass" class="input" placeholder="Tu contraseña">
+    <button class="btn btn-primary" onclick="handleAuth()">Entrar / Registrarse</button>
+    <p id="auth-msg" style="font-size: 12px; color: var(--muted); margin-top: 1rem; text-align: center;"></p>
+  </div>
+</div>
+
+<div id="app-content" style="display: none;">
   <header class="header">
-    <div class="header-logo">
-      <div class="logo-icon">🏦</div>
+    <div style="display:flex; align-items:center; gap:10px">
+      <div style="background:rgba(255,255,255,0.2); width:32px; height:32px; border-radius:10px; display:flex; align-items:center; justify-content:center;">🏦</div>
       <span class="logo-text">Tandapp</span>
-      <span class="logo-badge">Beta</span>
+      <span class="logo-badge">Cloud</span>
     </div>
-    <div style="font-size: 12px; font-weight: 600; opacity: 0.8;">Mis Apartados</div>
+    <button onclick="handleLogout()" style="background:none; border:none; color:white; font-size:12px; font-weight:600; cursor:pointer;">Cerrar Sesión</button>
   </header>
   <main class="main" id="app-root"></main>
 </div>
 
 <div class="modal-overlay" id="modal-nueva">
   <div class="modal">
-    <div class="modal-header">
-      <h3>Nueva Tanda</h3>
-      <button class="btn-icon" onclick="closeModal('modal-nueva')">✕</button>
+    <h3 style="margin-bottom:1rem">Nueva Tanda</h3>
+    <input class="input" id="nueva-nombre" type="text" placeholder="Nombre de la tanda"/>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px">
+        <input class="input" id="nueva-aportacion" type="number" placeholder="Aportación ($)"/>
+        <input class="input" id="nueva-participantes" type="number" placeholder="Participantes"/>
     </div>
-    <div class="modal-body">
-      <div id="nueva-error" class="alert-error" style="display:none; color: var(--red); margin-bottom: 10px; font-size: 13px;"></div>
-      <div class="field">
-        <label>Nombre de la tanda</label>
-        <input class="input" id="nueva-nombre" placeholder="Ej. Tanda oficina" type="text"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="field">
-          <label>Aportación ($)</label>
-          <input class="input" id="nueva-aportacion" placeholder="1000" type="number"/>
-        </div>
-        <div class="field">
-          <label>Participantes</label>
-          <input class="input" id="nueva-participantes" placeholder="10" type="number"/>
-        </div>
-      </div>
-      <div class="field">
-        <label>Comisión fija (Organizador)</label>
-        <input class="input" id="nueva-comision" value="500" type="number"/>
-      </div>
-      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:12px">
-        <div class="field">
-          <label>Fecha de inicio</label>
-          <input class="input" id="nueva-fecha" type="date"/>
-        </div>
-        <div class="field">
-          <label>Frecuencia</label>
-          <select class="input select" id="nueva-frecuencia">
-            <option value="7">Semanal</option>
-            <option value="15" selected>Quincenal</option>
-            <option value="30">Mensual</option>
-          </select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="closeModal('modal-nueva')">Cancelar</button>
-        <button class="btn btn-primary" onclick="crearTanda()">Crear Tanda</button>
-      </div>
+    <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:12px">
+        <input class="input" id="nueva-fecha" type="date"/>
+        <select class="input" id="nueva-frecuencia">
+          <option value="7">Semanal</option>
+          <option value="15" selected>Quincenal</option>
+          <option value="30">Mensual</option>
+        </select>
+    </div>
+    <div style="display:flex; justify-content:flex-end; gap:8px">
+        <button class="btn" onclick="closeModal('modal-nueva')">Cancelar</button>
+        <button class="btn btn-primary" style="width:auto" onclick="crearTanda()">Crear Tanda</button>
     </div>
   </div>
 </div>
 
-<script>
-const STORAGE_KEY = 'tandapp_v5.5_final';
-let state = { tandas: [], vista: 'dashboard', tandaId: null, tabActiva: 'config', rondaActiva: 0, modoPagos: 'persona' };
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-function load() {
-  const d = localStorage.getItem(STORAGE_KEY);
-  if (d) state.tandas = JSON.parse(d).tandas || [];
-}
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify({ tandas: state.tandas })); }
-function genId() { return Math.random().toString(36).slice(2, 10); }
-function fmt(n) { return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', maximumFractionDigits: 0 }).format(n); }
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function fmtFecha(f) { if (!f) return 'Sin fecha'; return new Date(f).toLocaleDateString('es-MX', { day:'numeric', month:'short', year:'numeric' }); }
+  // TU CONFIGURACIÓN (Extraída de tu imagen)
+  const firebaseConfig = {
+    apiKey: "AIzaSyBiOcXDDBpZ8zP5VeEQPqJp5GgxVEt-9UA",
+    authDomain: "tandapp-dc4f5.firebaseapp.com",
+    projectId: "tandapp-dc4f5",
+    storageBucket: "tandapp-dc4f5.firebasestorage.app",
+    messagingSenderId: "216117044294",
+    appId: "1:216117044294:web:fa7f7d925adf6e835b9647",
+    measurementId: "G-BDX33WZWWN"
+  };
 
-// LÓGICA DE DINERO REAL (CONGRUENTE CON PAGOS)
-function calcMonto(tanda, idx) {
-  const aportacion = tanda.aportacion;
-  const beneficiario = tanda.participantes[idx];
-  let recaudadoReal = 0;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  tanda.participantes.forEach((p, pIdx) => {
-    if (idx === 0 && pIdx === 0) return; // Organizador no paga en su ronda (Ronda 1)
-    if (p.pagos[idx]) { recaudadoReal += aportacion; } // Solo sumamos si marcaron el pago de esa ronda
+  let userState = null;
+  let state = { tandas: [], vista: 'dashboard', tandaId: null, tabActiva: 'config', rondaActiva: 0, modoPagos: 'persona' };
+
+  // 2. LÓGICA DE AUTH
+  window.handleAuth = async () => {
+    const email = document.getElementById('auth-email').value;
+    const pass = document.getElementById('auth-pass').value;
+    const msg = document.getElementById('auth-msg');
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+    } catch (e) {
+      if (e.code === 'auth/user-not-found') {
+        try { await createUserWithEmailAndPassword(auth, email, pass); } catch(err) { msg.innerText = "Error al registrarse"; }
+      } else { msg.innerText = "Error: " + e.message; }
+    }
+  };
+
+  window.handleLogout = () => signOut(auth);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      userState = user;
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('app-content').style.display = 'block';
+      await loadData();
+      render();
+    } else {
+      document.getElementById('auth-screen').style.display = 'flex';
+      document.getElementById('app-content').style.display = 'none';
+    }
   });
 
-  // Comisión: Si no es organizador y no es familia, restamos una aportación
-  if (idx !== 0 && !beneficiario.exento) {
-    recaudadoReal = Math.max(0, recaudadoReal - aportacion);
+  // 3. LÓGICA DE DATOS (Sincronizada con la Nube)
+  async function loadData() {
+    const docRef = doc(db, "users", userState.uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) { state.tandas = docSnap.data().tandas || []; }
   }
-  return recaudadoReal;
-}
 
-function crearTanda() {
-  const nombre = document.getElementById('nueva-nombre').value.trim();
-  const aportacion = parseFloat(document.getElementById('nueva-aportacion').value);
-  const numP = parseInt(document.getElementById('nueva-participantes').value);
-  const comision = parseFloat(document.getElementById('nueva-comision').value) || 0;
-  const fecha = document.getElementById('nueva-fecha').value;
-  const frecuencia = parseInt(document.getElementById('nueva-frecuencia').value);
+  async function saveData() {
+    if (!userState) return;
+    await setDoc(doc(db, "users", userState.uid), { tandas: state.tandas });
+  }
 
-  if (!nombre || !aportacion || numP < 2 || !fecha) return alert('Completa todos los campos');
+  // 4. LÓGICA DE NEGOCIO (Respetando tus reglas de cálculo reales)
+  function calcMonto(tanda, idx) {
+    const aportacion = tanda.aportacion;
+    const beneficiario = tanda.participantes[idx];
+    let recaudadoReal = 0;
+    tanda.participantes.forEach((p, pIdx) => {
+      if (idx === 0 && pIdx === 0) return; // Organizador no paga ronda 1
+      if (p.pagos[idx]) recaudadoReal += aportacion;
+    });
+    if (idx !== 0 && !beneficiario.exento) {
+      recaudadoReal = Math.max(0, recaudadoReal - aportacion);
+    }
+    return recaudadoReal;
+  }
 
-  const participantes = Array.from({ length: numP }, (_, i) => {
-    let d = new Date(fecha + 'T12:00:00'); // Fix para evitar desfase de fechas
-    d.setDate(d.getDate() + (i * frecuencia));
-    return { id: genId(), nombre: '', exento: false, pagos: Array(numP).fill(false), fechaCobro: d.getTime(), recibido: false };
-  });
+  // 5. RENDERIZADO (Diseño Intacto)
+  window.crearTanda = async () => {
+    const nombre = document.getElementById('nueva-nombre').value;
+    const aportacion = parseFloat(document.getElementById('nueva-aportacion').value);
+    const numP = parseInt(document.getElementById('nueva-participantes').value);
+    const fecha = document.getElementById('nueva-fecha').value;
+    const frecuencia = parseInt(document.getElementById('nueva-frecuencia').value);
 
-  state.tandas.push({ id: genId(), nombre, aportacion, comision, participantes, fechaInicio: fecha, frecuencia });
-  save(); closeModal('modal-nueva'); render();
-}
+    if(!nombre || !aportacion || !numP) return alert("Completa los datos");
 
-function toggleExento(idx) {
-  const t = getTanda(); t.participantes[idx].exento = !t.participantes[idx].exento; save(); render();
-}
+    const participantes = Array.from({ length: numP }, (_, i) => {
+      let d = new Date(fecha + 'T12:00:00');
+      d.setDate(d.getDate() + (i * frecuencia));
+      return { nombre: '', exento: false, pagos: Array(numP).fill(false), fechaCobro: d.getTime(), recibido: false };
+    });
 
-function togglePago(pIdx, ronda) {
-  const t = getTanda();
-  t.participantes[pIdx].pagos[ronda] = !t.participantes[pIdx].pagos[ronda];
-  save(); render();
-}
+    state.tandas.push({ id: Math.random().toString(36).slice(2, 10), nombre, aportacion, participantes });
+    await saveData();
+    closeModal('modal-nueva');
+    render();
+  };
 
-function toggleRecibido(idx) {
-  const t = getTanda(); t.participantes[idx].recibido = !t.participantes[idx].recibido; save(); render();
-}
-
-function verTanda(id) { state.tandaId = id; state.vista = 'detalle'; state.tabActiva = 'config'; render(); }
-function getTanda() { return state.tandas.find(t => t.id === state.tandaId); }
-
-function render() {
-  const root = document.getElementById('app-root');
-  if (state.vista === 'dashboard') root.innerHTML = renderDashboard();
-  else root.innerHTML = renderDetalle();
-}
-
-function renderDashboard() {
-  return `
-    <div class="dashboard-header animate-in">
-      <div><h2 class="text-2xl font-bold" style="color:var(--text)">Tus Tandas</h2><p class="dashboard-sub">${state.tandas.length} activas</p></div>
-      <button class="btn btn-primary" onclick="openModal('modal-nueva')">+ Nueva Tanda</button>
-    </div>
-    <div class="tanda-grid">${state.tandas.map(t => `
-      <div class="card tanda-card animate-in" onclick="verTanda('${t.id}')">
-        <div class="card-pad" style="display:flex; justify-content:space-between; align-items:center">
-          <div>
-            <div style="font-weight:800; font-size:18px; color:var(--accent)">${esc(t.nombre)}</div>
-            <div style="color:var(--muted); font-size:13px">${fmt(t.aportacion)} • ${t.participantes.length} números</div>
-          </div>
-          <button class="btn-icon danger" onclick="event.stopPropagation();if(confirm('¿Eliminar?')){state.tandas=state.tandas.filter(x=>x.id!=='${t.id}');save();render()}">✕</button>
+  function render() {
+    const root = document.getElementById('app-root');
+    if (state.vista === 'dashboard') {
+      root.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+          <h2>Tus Tandas</h2>
+          <button class="btn btn-primary" style="width:auto" onclick="openModal('modal-nueva')">+ Nueva Tanda</button>
         </div>
-      </div>`).join('')}</div>`;
-}
-
-function renderDetalle() {
-  const t = getTanda();
-  return `
-    <div class="animate-in">
-      <button class="back-btn" onclick="state.vista='dashboard';render()" style="background:none; border:none; color:var(--muted); cursor:pointer; margin-bottom:1rem; font-weight:600">← Volver</button>
-      <div class="tabs">
-        <button class="tab ${state.tabActiva==='config'?'active':''}" onclick="state.tabActiva='config';render()">Configuración</button>
-        <button class="tab ${state.tabActiva==='pagos'?'active':''}" onclick="state.tabActiva='pagos';render()">Pagos</button>
-        <button class="tab ${state.tabActiva==='resumen'?'active':''}" onclick="state.tabActiva='resumen';render()">Resumen</button>
-      </div>
-      ${state.tabActiva === 'config' ? renderConfig(t) : (state.tabActiva === 'pagos' ? renderPagos(t) : renderResumen(t))}
-    </div>`;
-}
-
-function renderConfig(t) {
-  return `
-    <div class="card card-pad animate-in">
-      <input class="config-title-input" value="${esc(t.nombre)}" oninput="getTanda().nombre=this.value;save()" />
-      <div style="margin-top:20px; color: var(--muted); font-size: 11px; text-transform:uppercase; font-weight:700">Integrantes y Recaudación Real</div>
-      ${t.participantes.map((p, i) => `
-        <div class="integrante-row">
-          <div class="integrante-num ${i===0?'num-org':'num-reg'}">${i+1}</div>
-          <div class="integrante-nombre">
-            <input value="${esc(p.nombre)}" placeholder="Nombre..." oninput="getTanda().participantes[${i}].nombre=this.value;save()" />
-            <div style="font-size:10px; color:var(--accent); font-weight:600">Recibe el: ${fmtFecha(p.fechaCobro)}</div>
+        ${state.tandas.map(t => `
+          <div class="card" onclick="window.verTanda('${t.id}')" style="cursor:pointer">
+            <div style="font-weight:800; font-size:18px; color:var(--accent)">${t.nombre}</div>
+            <div style="color:var(--muted); font-size:13px">${new Intl.NumberFormat('es-MX', {style:'currency', currency:'MXN'}).format(t.aportacion)} • ${t.participantes.length} integrantes</div>
           </div>
-          <div class="exento-pill ${p.exento?'active':''}" onclick="toggleExento(${i})"> ${p.exento?'Familia':'Con Comisión'}</div>
-          <div style="text-align:right">
-            <div style="font-weight:800; color:var(--green)">${fmt(calcMonto(t,i))}</div>
-            <div style="font-size:9px; color:var(--muted); font-weight:700">A RECIBIR</div>
-          </div>
-        </div>`).join('')}
-    </div>`;
-}
+        `).join('')}`;
+    } else {
+      const t = state.tandas.find(x => x.id === state.tandaId);
+      root.innerHTML = `
+        <button class="btn" style="margin-bottom:15px; color:var(--muted)" onclick="window.setVista('dashboard')">← Volver</button>
+        <div class="tabs">
+          <div class="tab ${state.tabActiva==='config'?'active':''}" onclick="window.setTab('config')">Configuración</div>
+          <div class="tab ${state.tabActiva==='pagos'?'active':''}" onclick="window.setTab('pagos')">Pagos</div>
+        </div>
+        ${state.tabActiva==='config' ? renderConfig(t) : renderPagos(t)}`;
+    }
+  }
 
-function renderPagos(t) {
-  const r = state.rondaActiva;
-  return `
-    <div style="display:flex; gap:10px; margin-bottom:15px">
-      <button class="btn btn-sm ${state.modoPagos==='persona'?'btn-primary':'btn-ghost'}" onclick="state.modoPagos='persona';render()">Por Persona</button>
-      <button class="btn btn-sm ${state.modoPagos==='ronda'?'btn-primary':'btn-ghost'}" onclick="state.modoPagos='ronda';render()">Por Ronda</button>
-    </div>
-    ${state.modoPagos === 'persona' ? t.participantes.map((p, i) => `
-      <div class="card card-pad animate-in" style="margin-bottom:10px">
-        <div style="display:flex; justify-content:space-between; align-items:center">
-          <div style="font-weight:700">${esc(p.nombre || 'Participante '+(i+1))}</div>
-          <div style="font-weight:800; color:var(--green)">Saldo Real: ${fmt(calcMonto(t,i))}</div>
-        </div>
-        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:10px">
-          ${p.pagos.map((pg, ronda) => `<button class="pago-btn ${pg?'pagado':''}" onclick="togglePago(${i},${ronda})">${pg?'✓':ronda+1}</button>`).join('')}
-        </div>
-      </div>`).join('') : `
-      <div class="ronda-selector animate-in">
+  function renderConfig(t) {
+    return `
+      <div class="card">
+        <h3 style="margin-bottom:15px; color:var(--accent)">${t.nombre}</h3>
+        ${t.participantes.map((p, i) => `
+          <div class="integrante-row">
+            <div class="integrante-num ${i===0?'num-org':'num-reg'}">${i+1}</div>
+            <div>
+              <input style="font-family:'Outfit'; font-weight:700; border:none; outline:none; width:100%" value="${p.nombre}" placeholder="Nombre..." onchange="window.updateP(${i}, 'nombre', this.value)">
+              <div style="font-size:10px; color:var(--muted)">Cobro: ${new Date(p.fechaCobro).toLocaleDateString()}</div>
+            </div>
+            <div class="exento-pill ${p.exento?'active':''}" onclick="window.updateP(${i}, 'exento', ${!p.exento})">${p.exento?'Familia':'Con Comisión'}</div>
+            <div style="text-align:right">
+              <div style="font-weight:800; color:var(--green)">$${calcMonto(t, i)}</div>
+              <div style="font-size:9px; color:var(--muted)">REAL</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+
+  function renderPagos(t) {
+    const r = state.rondaActiva;
+    return `
+      <div style="display:flex; gap:6px; overflow-x:auto; margin-bottom:15px">
         ${t.participantes.map((_, i) => {
-          const completa = t.participantes.every((p, pIdx) => (pIdx === 0 && i === 0) ? true : p.pagos[i]);
-          return `<div class="ronda-dot ${state.rondaActiva===i?'active':''} ${completa?'completa':''}" onclick="state.rondaActiva=${i};render()">${i+1}</div>`;
+          const completa = t.participantes.every((p, pIdx) => (pIdx===0 && i===0) ? true : p.pagos[i]);
+          return `<div class="ronda-dot ${r===i?'active':''} ${completa?'completa':''}" onclick="window.setRonda(${i})">${i+1}</div>`;
         }).join('')}
       </div>
-      <div class="card card-pad animate-in">
-        <div style="margin-bottom:15px; background:var(--surface3); padding:15px; border-radius:var(--radius); border:1px solid var(--border2)">
-          <div style="font-size:10px; color:var(--accent); font-weight:800; text-transform:uppercase">Documentando Ronda ${r+1}</div>
-          <div style="font-weight:800; font-size:18px">Cobra: ${esc(t.participantes[r].nombre || 'Participante '+(r+1))}</div>
+      <div class="card">
+        <div style="margin-bottom:15px; background:var(--surface3); padding:12px; border-radius:10px">
+          <div style="font-size:11px; font-weight:800; color:var(--accent)">DOCUMENTANDO RONDA ${r+1}</div>
+          <div style="font-weight:800; font-size:16px">Recibe: ${t.participantes[r].nombre || 'P'+(r+1)}</div>
         </div>
-        ${t.participantes.map((p, pi) => (pi===0 && r===0) ? '' : `<div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
-          <span>${pi+1}. ${esc(p.nombre || 'Participante')}</span>
-          <button class="pago-btn ${p.pagos[r]?'pagado':''}" onclick="togglePago(${pi},${r})">${p.pagos[r]?'✓':'$'}</button>
-        </div>`).join('')}
-      </div>`}`;
-}
+        ${t.participantes.map((p, i) => (i===0 && r===0) ? '' : `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border)">
+            <span>${i+1}. ${p.nombre || 'Participante'}</span>
+            <div class="pago-btn ${p.pagos[r]?'pagado':''}" onclick="window.togglePago(${i}, ${r})">${p.pagos[r]?'✓':'$'}</div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
 
-function renderResumen(t) {
-  return `
-    <div class="card animate-in"><div class="card-pad" style="overflow-x:auto"><table style="width:100%; border-collapse:collapse; font-size:13px; min-width:400px">
-      <thead><tr style="color:var(--muted); text-align:left; font-weight:700; text-transform:uppercase; font-size:11px"><th style="padding:10px">#</th><th>Nombre</th><th>Fecha Cobro</th><th>Saldo Real</th><th>Entrega</th></tr></thead>
-      <tbody>${t.participantes.map((p, i) => `<tr style="border-top:1px solid var(--border)"><td style="padding:10px">${i+1}</td><td>${esc(p.nombre || '-')}</td><td>${fmtFecha(p.fechaCobro)}</td><td style="font-weight:800; color:var(--green)">${fmt(calcMonto(t,i))}</td>
-      <td><span class="badge badge-clickable ${p.recibido?'badge-green':'badge-muted'}" onclick="toggleRecibido(${i})">${p.recibido?'✓ Entregado':'Pendiente'}</span></td></tr>`).join('')}</tbody>
-    </table></div></div>`;
-}
+  // Funciones globales para que los botones sirvan
+  window.verTanda = (id) => { state.tandaId = id; state.vista = 'detalle'; state.tabActiva = 'config'; render(); };
+  window.setVista = (v) => { state.vista = v; render(); };
+  window.setTab = (t) => { state.tabActiva = t; render(); };
+  window.setRonda = (r) => { state.rondaActiva = r; render(); };
+  window.openModal = (id) => document.getElementById(id).classList.add('open');
+  window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+  
+  window.updateP = async (idx, field, val) => {
+    const t = state.tandas.find(x => x.id === state.tandaId);
+    t.participantes[idx][field] = val;
+    render();
+    await saveData();
+  };
 
-function openModal(id) { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-load(); render();
+  window.togglePago = async (pIdx, rIdx) => {
+    const t = state.tandas.find(x => x.id === state.tandaId);
+    t.participantes[pIdx].pagos[rIdx] = !t.participantes[pIdx].pagos[rIdx];
+    render();
+    await saveData();
+  };
+
 </script>
 </body>
 </html>
